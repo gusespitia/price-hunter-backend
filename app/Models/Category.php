@@ -14,15 +14,12 @@ class Category extends Model
     protected $table = 'categories';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'category_name',   
+        'name',
+        'status',
     ];
 
-    protected $guarded = [];
-    public $timestamps = false;
-
-
-    public function product(): HasMany
+    public function products()
     {
-        return $this->hasMany(Product::class, 'id_product_category', 'id');
+        return $this->hasMany(Product::class, 'id_category');
     }
 }

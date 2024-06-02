@@ -1,12 +1,17 @@
 <?php
+
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\ScrapingProductController;
+use App\Http\Controllers\PriceController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Rutas para ProductController
 Route::resource('products', ProductController::class)->names([
     'index' => 'product.index',
     'create' => 'product.create',
@@ -16,6 +21,8 @@ Route::resource('products', ProductController::class)->names([
     'update' => 'product.update',
     'destroy' => 'product.destroy',
 ]);
+
+// Rutas para CategoryController
 Route::resource('categories', CategoryController::class)->names([
     'index' => 'category.index',
     'create' => 'category.create',
@@ -25,6 +32,8 @@ Route::resource('categories', CategoryController::class)->names([
     'update' => 'category.update',
     'destroy' => 'category.destroy',
 ]);
+
+// Rutas para StoreController
 Route::resource('stores', StoreController::class)->names([
     'index' => 'store.index',
     'create' => 'store.create',
@@ -34,6 +43,29 @@ Route::resource('stores', StoreController::class)->names([
     'update' => 'store.update',
     'destroy' => 'store.destroy',
 ]);
+
+// Rutas para ScrapingProductController
+Route::resource('scraping_products', ScrapingProductController::class)->names([
+    'index' => 'scraping_product.index',
+    'create' => 'scraping_product.create',
+    'store' => 'scraping_product.store',
+    'show' => 'scraping_product.show',
+    'edit' => 'scraping_product.edit',
+    'update' => 'scraping_product.update',
+    'destroy' => 'scraping_product.destroy',
+]);
+
+// Rutas para PriceController
+Route::resource('prices', PriceController::class)->names([
+    'index' => 'price.index',
+    'create' => 'price.create',
+    'store' => 'price.store',
+    'show' => 'price.show',
+    'edit' => 'price.edit',
+    'update' => 'price.update',
+    'destroy' => 'price.destroy',
+]);
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

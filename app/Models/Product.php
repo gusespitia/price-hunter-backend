@@ -4,26 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model
 {
-    protected $table = 'products';
-    protected $primaryKey = 'id';
+    use HasFactory;
+
     protected $fillable = [
-        'product_name',
-        'product_picture',
-        'product_weight',
-        'id_product_category',
-        'status'
+        'name',
+        'picture',
+        'status',
+        'presentation',
+        'id_category',
     ];
 
-    protected $guarded = [];
-    public $timestamps = false;
-
-    public function category(): BelongsTo
+    public function category()
     {
-        return $this->belongsTo(Category::class, 'id_product_category', 'id')->select(['id', 'category_name']);
+        return $this->belongsTo(Category::class, 'id_category');
+    }
+
+    public function scrapingProducts()
+    {
+        return $this->hasMany(ScrapingProduct::class, 'id_product');
     }
 }
-

@@ -1,9 +1,10 @@
 <?php
+// app/Http/Controllers/StoreController.php
 
 namespace App\Http\Controllers;
 
-use App\Models\Store;
 use Illuminate\Http\Request;
+use App\Models\Store;
 
 class StoreController extends Controller
 {
@@ -12,30 +13,31 @@ class StoreController extends Controller
         $stores = Store::all();
         return view('store.index', compact('stores'));
     }
+    
     public function store(Request $request)
     {
-        //METODO PARA GUARDAR
-
-
+        $store = new Store;
+        $store->name = $request->input('name');
+        $store->url_base = $request->input('url_base');
+        $store->logo = $request->input('logo');
+        $store->status = $request->input('status', true);
+        $store->save();
+        return redirect()->back();
     }
+
     public function update(Request $request, $id)
-    { 
-     
-        //METODO PARA Actualizar
-        $store = Store::find($id);   
-        $store->store_name = $request->input('store_name');
-        $store->store_url = $request->input('store_url');
-        $store->store_logo = $request->input('store_logo');     
+    {
+        $store = Store::find($id);
+        $store->name = $request->input('name');
+        $store->url_base = $request->input('url_base');
+        $store->logo = $request->input('logo');
+        $store->status = $request->input('status');
         $store->update();
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        // CAMBIAR STAUTRS EN VEZ DE ELIMINAR
         $store = Store::find($id);
         $store->delete();
         return redirect()->back();
