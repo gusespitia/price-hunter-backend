@@ -18,7 +18,6 @@ class CreateScrapingProductsTable extends Migration
             $table->unsignedBigInteger('id_store');
             $table->boolean('status')->default(true);
             $table->timestamps();
-
             $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('id_store')->references('id')->on('stores')->onDelete('cascade');
         });

@@ -19,15 +19,47 @@ class ProductController extends Controller
 
 
 
-    
+
        // Método indexApi para devolver todos los productos en formato JSON
        public function indexApi()
        {
            $products = Product::with('category')->get();
+           if (count($products) == 0) {
+            return response()->json(['message' => 'There are no products.'], 404);
+        }
            return response()->json($products);
        }
+       // Método API para obtener productos por categoría
+    public function getProductsByCategory(Request $request, $category)
+    {
+        // Formatear el nombre de la categoría
+        $categoryNameFormatted = strtolower(str_replace(' ', '', $category));
 
+        // Buscar la categoría en la base de datos
+        $category = Category::where('name', 'LIKE', "%$categoryNameFormatted%")->first();
 
+        if (!$category) {
+            return response()->json(['message' => 'Category not found.'], 404);
+        }
+
+        // Obtener productos de la categoría encontrada
+        $products = Product::with('category')->where('id_category', $category->id)->get();
+
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'There are no products in this category.'], 404);
+        }
+
+        return response()->json($products);
+    }
+
+public function showApi($id)
+{
+    $product = Product::with('category')->find($id);
+    if (!$product) {
+        return response()->json(['message' => 'Product not found.'], 404);
+    }
+    return response()->json($product);
+}
 
 
     public function create()

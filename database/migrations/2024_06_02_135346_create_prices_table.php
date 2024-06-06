@@ -19,7 +19,7 @@ class CreatePricesTable extends Migration
             $table->unsignedBigInteger('id_product');
             $table->unsignedBigInteger('id_store');
             $table->timestamps();
-
+            $table->boolean('status')->default(true);
             $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('id_store')->references('id')->on('stores')->onDelete('cascade');
         });

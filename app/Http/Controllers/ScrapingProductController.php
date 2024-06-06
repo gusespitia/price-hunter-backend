@@ -8,6 +8,7 @@ use App\Models\ScrapingProduct;
 use App\Models\Product;
 use App\Models\Store;
 
+
 class ScrapingProductController extends Controller
 {
     public function index()
@@ -18,6 +19,8 @@ class ScrapingProductController extends Controller
         return view('scraping_product.index', compact('scrapingProducts', 'products', 'stores'));
     }
     
+      // Método api para devolver los scraping products con la fecha de hoy y status 1
+  
     
     
     public function store(Request $request)

@@ -14,11 +14,11 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->longText('picture');
-            $table->boolean('status')->default(true);
+            $table->longText('picture');          
             $table->string('weight', 45);
             $table->string('presentation', 255);
             $table->unsignedBigInteger('id_category');
+            $table->boolean('status')->default(true);
             $table->timestamps();
 
             $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
