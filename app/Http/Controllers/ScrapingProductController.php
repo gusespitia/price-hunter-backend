@@ -12,7 +12,7 @@ class ScrapingProductController extends Controller
 {
     public function index()
     {
-        $scrapingProducts = ScrapingProduct::with('product', 'store')->get();
+        $scrapingProducts = ScrapingProduct::with('product', 'store')->paginate(10);
         $products = Product::all(); // Obtener todos los productos
         $stores = Store::all(); // Obtener todas las tiendas
         return view('scraping_product.index', compact('scrapingProducts', 'products', 'stores'));

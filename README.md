@@ -64,3 +64,17 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Hostname:
+ID396978_pricehunter.db.webhosting.be
+
+Database:
+ID396978_pricehunter
+
+User:
+ID396978_pricehunter
+
+password 
+A23id9l7Z15966wD99E9
+
+ddev php artisan migrate:fresh --seed

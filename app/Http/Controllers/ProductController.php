@@ -3,19 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+// app/Http/Controllers/ProductController.php
+
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->get();
-        return view('product.index', compact('products'));
+        $products = Product::with('category')->paginate(10);;
+        $categories = Category::all(); // Obtener todas las categorías
+        return view('product.index', compact('products', 'categories'));
     }
+
+
+
+    
+       // Método indexApi para devolver todos los productos en formato JSON
+       public function indexApi()
+       {
+           $products = Product::with('category')->get();
+           return response()->json($products);
+       }
+
+
+
 
     public function create()
     {
-        return view('product.create');
+        $categories = Category::all();
+        return view('product.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -24,6 +42,7 @@ class ProductController extends Controller
         $product->name = $request->input('name');
         $product->picture = $request->input('picture');
         $product->status = $request->input('status', true);
+        $product->weight = $request->input('weight');
         $product->presentation = $request->input('presentation');
         $product->id_category = $request->input('id_category');
         $product->save();
@@ -36,6 +55,7 @@ class ProductController extends Controller
         $product->name = $request->input('name');
         $product->picture = $request->input('picture');
         $product->status = $request->input('status', true);
+        $product->weight = $request->input('weight');
         $product->presentation = $request->input('presentation');
         $product->id_category = $request->input('id_category');
         $product->update();

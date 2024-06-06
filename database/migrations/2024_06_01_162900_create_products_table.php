@@ -16,7 +16,8 @@ class CreateProductsTable extends Migration
             $table->string('name', 255);
             $table->longText('picture');
             $table->boolean('status')->default(true);
-            $table->enum('presentation', ['gr', 'ml', 'kg', 'unit']);
+            $table->string('weight', 45);
+            $table->string('presentation', 255);
             $table->unsignedBigInteger('id_category');
             $table->timestamps();
 

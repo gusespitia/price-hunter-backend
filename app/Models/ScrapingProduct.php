@@ -25,9 +25,4 @@ class ScrapingProduct extends Model
     {
         return $this->belongsTo(Store::class, 'id_store');
     }
-
-    public function prices()
-    {
-        return $this->hasMany(Price::class, 'scraping_products_id');
-    }
 }

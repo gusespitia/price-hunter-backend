@@ -10,14 +10,20 @@ class Price extends Model
     use HasFactory;
 
     protected $fillable = [
-        'combo_id',
         'data',
         'price',
-        'scraping_products_id',
+        'presentation',
+        'id_product',
+        'id_store',
     ];
 
-    public function scrapingProduct()
+    public function product()
     {
-        return $this->belongsTo(ScrapingProduct::class, 'scraping_products_id');
+        return $this->belongsTo(Product::class, 'id_product');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'id_store');
     }
 }

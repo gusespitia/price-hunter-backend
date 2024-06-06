@@ -13,6 +13,7 @@ class Product extends Model
         'name',
         'picture',
         'status',
+        'weight',
         'presentation',
         'id_category',
     ];
@@ -20,10 +21,5 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'id_category');
-    }
-
-    public function scrapingProducts()
-    {
-        return $this->hasMany(ScrapingProduct::class, 'id_product');
     }
 }

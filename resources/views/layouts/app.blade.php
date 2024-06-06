@@ -16,7 +16,7 @@
 </head>
 <body class="font-sans antialiased overflow-x-hidden">
     <x-banner />
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-800">
         @livewire('navigation-menu')
         <!-- Page Heading -->
         @if (isset($header))
@@ -30,7 +30,7 @@
         <main>
             {{ $slot }}
         </main>
-        <footer class="bg-white dark:bg-gray-800 shadow">
+        <footer class="bg-white dark:bg-gray-800 shadow mt-10">
             <div class="max-w-7xl mx-auto py-10 px-4 overflow-hidden sm:px-6 lg:px-8">
                 <div class="my-2 md:flex justify-center">
                     <div class="py-2 px-5">
