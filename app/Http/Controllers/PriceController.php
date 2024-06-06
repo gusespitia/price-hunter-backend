@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Store;
-
-
+use Carbon\Carbon;
 
 class PriceController extends Controller
 {
@@ -16,8 +15,8 @@ class PriceController extends Controller
         $sort = $request->input('sort', 'asc'); // Obtener el parámetro de orden (asc por defecto)
 
         $prices = Price::with(['product', 'store'])
-        ->orderBy('price', $sort) // Ordenar por precio según el parámetro de orden
-        ->paginate(20);
+            ->orderBy('price', $sort) // Ordenar por precio según el parámetro de orden
+            ->paginate(20);
         $products = Product::all();
         $stores = Store::all();
         return view('price.index', compact('prices', 'products', 'stores'));
@@ -74,5 +73,56 @@ class PriceController extends Controller
         $price->delete();
 
         return redirect()->route('price.index')->with('success', 'Price deleted successfully.');
+    }
+
+    // Método api para devolver los precios con la fecha de hoy y status 1
+    public function indexApi()
+    {
+        $today = Carbon::today();
+        $prices = Price::with(['product', 'store'])
+            ->whereDate('created_at', $today)
+            ->where('status', 1)
+            ->get();
+
+        if ($prices->isEmpty()) {
+            return response()->json(['message' => 'There are no prices for today.'], 404);
+        }
+
+        return response()->json($prices);
+    }
+
+    // Método api para devolver los precios de una tienda específica con la fecha de hoy y status 1
+    public function getPricesByStore(Request $request, $storeName)
+    {
+        $validStores = [
+            'albert-heijn' => 'Albert Heijn',
+            'carrefour' => 'Carrefour',
+            'delhaize' => 'Delhaize',
+        ];
+
+        $storeNameFormatted = strtolower(str_replace(' ', '', $storeName));
+
+        if (!array_key_exists($storeNameFormatted, $validStores)) {
+            return response()->json(['message' => 'Invalid store name.'], 404);
+        }
+
+        $store = Store::where('name', $validStores[$storeNameFormatted])->first();
+
+        if (!$store) {
+            return response()->json(['message' => 'Store not found.'], 404);
+        }
+
+        $today = Carbon::today();
+        $prices = Price::with(['product', 'store'])
+            ->where('id_store', $store->id)
+            ->whereDate('created_at', $today)
+            ->where('status', 1)
+            ->get();
+
+        if ($prices->isEmpty()) {
+            return response()->json(['message' => 'There are no prices for today for this store.'], 404);
+        }
+
+        return response()->json($prices);
     }
 }
