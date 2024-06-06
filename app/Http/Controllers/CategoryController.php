@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/CategoryController.php
 
 namespace App\Http\Controllers;
 
@@ -8,9 +7,22 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
+        // Obtener parámetros de consulta
+        $columnName = $request->input('column_name');
+        $sort = $request->input('sort', 'asc'); // Orden predeterminado
+
+        // Aplicar ordenamiento si se proporciona
+        $query = Category::query();
+        if ($columnName) {
+            $query->orderBy($columnName, $sort);
+        }
+
+        // Obtener todas las categorías
+        $categories = $query->get();
+
+        // Devolver vista con datos
         return view('category.index', compact('categories'));
     }
     

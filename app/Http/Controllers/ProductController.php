@@ -9,22 +9,61 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->paginate(10);;
+        $query = Product::with('category');
+    
+        // Aplicar filtros si existen
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('category')) {
+            $query->where('id_category', $request->input('category'));
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+    
+        // Aplicar ordenación si existen los parámetros
+        if ($request->filled('sort') && $request->filled('column')) {
+            $column = $request->input('column');
+    
+            // Ajustar el nombre de columna si es 'category_id'
+            if ($column === 'category_id') {
+                $column = 'id_category';
+            }
+    
+            $query->orderBy($column, $request->input('sort'));
+        }
+    
+        $products = $query->paginate(10);
         $categories = Category::all(); // Obtener todas las categorías
+    
         return view('product.index', compact('products', 'categories'));
     }
+    
 
-    public function indexApi()
+    public function indexApi(Request $request)
     {
         // Verificar si el usuario está autenticado utilizando la guardia 'api'
         if (!Auth::guard('api')->check()) {
             return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
         }
 
-        // Obtener todos los productos
-        $products = Product::with('category')->get();
+        $query = Product::with('category');
+
+        // Aplicar filtros si existen
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('category')) {
+            $query->where('id_category', $request->input('category'));
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        $products = $query->get();
 
         // Verificar si hay productos
         if ($products->isEmpty()) {
@@ -33,8 +72,8 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
-    
-       // Método API para obtener productos por categoría
+
+    // Método API para obtener productos por categoría
     public function getProductsByCategory(Request $request, $category)
     {
         // Formatear el nombre de la categoría
@@ -57,15 +96,14 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-public function showApi($id)
-{
-    $product = Product::with('category')->find($id);
-    if (!$product) {
-        return response()->json(['message' => 'Product not found.'], 404);
+    public function showApi($id)
+    {
+        $product = Product::with('category')->find($id);
+        if (!$product) {
+            return response()->json(['message' => 'Product not found.'], 404);
+        }
+        return response()->json($product);
     }
-    return response()->json($product);
-}
-
 
     public function create()
     {

@@ -11,11 +11,36 @@ use App\Models\Store;
 
 class ScrapingProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $scrapingProducts = ScrapingProduct::with('product', 'store')->paginate(10);
-        $products = Product::all(); // Obtener todos los productos
-        $stores = Store::all(); // Obtener todas las tiendas
+        // Obtener parámetros de consulta
+        $productName = $request->input('product_name');
+        $storeId = $request->input('store');
+
+        // Aplicar filtros si se proporcionan
+        $query = ScrapingProduct::with('product', 'store');
+        if ($productName) {
+            $query->whereHas('product', function($query) use ($productName) {
+                $query->where('name', 'like', "%$productName%");
+            });
+        }
+        if ($storeId) {
+            $query->where('id_store', $storeId);
+        }
+
+        // Aplicar ordenamiento si se proporciona
+        $column = $request->input('column', 'id'); // Columna predeterminada para ordenamiento
+        $sort = $request->input('sort', 'asc'); // Orden predeterminado
+        $query->orderBy($column, $sort);
+
+        // Obtener los scraping products paginados
+        $scrapingProducts = $query->paginate(10);
+
+        // Obtener todos los productos y tiendas para los filtros
+        $products = Product::all();
+        $stores = Store::all();
+
+        // Devolver vista con datos
         return view('scraping_product.index', compact('scrapingProducts', 'products', 'stores'));
     }
     

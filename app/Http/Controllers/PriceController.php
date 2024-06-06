@@ -44,7 +44,7 @@ $column = $request->input('column', '');
             $query->where('id', $id);
         }
    
-        $prices = $query->orderBy('price', $sort)->paginate(20);      
+        $prices = $query->orderBy('price', $sort, $column)->paginate(20);      
         $products = Product::all();
         $stores = Store::all();
         return view('price.index', compact('prices', 'products', 'stores', 'sort', 'column'));
