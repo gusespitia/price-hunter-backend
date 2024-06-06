@@ -11,36 +11,48 @@
 
     <main>
         <div class="container mt-4">
-            <!-- Button trigger modal -->
-            <div class="d-flex justify-content-start mb-3">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create">
-                    Add a New Price
-                </button>
+            <!-- Filter options -->
+            <div class="mb-3">
+                <form method="GET" action="{{ route('price.index') }}">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Product Name" name="product_name">
+                        </div>
+                     
+                        <div class="col-md-3">
+                            <input type="date" class="form-control" name="datum">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" name="store">
+                                <option value="">Select Store</option>
+                                <!-- Populate with store options -->
+                                @foreach($stores as $store)
+                                    <option value="{{ $store->id }}">{{ $store->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        </div>
+                    </div>
+                </form>
             </div>
+
             <div class="table-responsive">
                 <table class="table table-striped table-dark">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col" colspan="2"> <!-- Colspan para combinar dos celdas -->
-                                <div class="d-flex justify-content-between align-items-center">
-                                    Price
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="bi bi-sort"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item" href="{{ route('price.index', ['sort' => 'asc']) }}"><i class="bi bi-sort-ascending"></i> Ascending</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('price.index', ['sort' => 'desc']) }}"><i class="bi bi-sort-descending"></i> Descending</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                            <th scope="col">
+                                Product Name
+                                <a href="{{ route('price.index', ['sort' => $sort === 'asc' && $column === 'data' ]) }}">ASC</a>                           
                             </th>
+                            
+                            <th scope="col">Price</th>
                             <th scope="col">Store</th>
                             <th scope="col">Product ID</th>
                             <th scope="col">Datum</th>
-                            <th scope="col">Options</th>
+                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,28 +60,24 @@
                         <tr>
                             <td>{{ $price->id }}</td>
                             <td>{{ $price->data }}</td>
-                            <td>{{ $price->price }}</td>
-                            <td></td>
+                            <td>{{ $price->price }}</td>                                         
                             <td>{{ $price->id_store }}</td>
                             <td>{{ $price->id_product }}</td>
                             <td>{{ $price->created_at }}</td>
                             <td>
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#edit{{ $price->id }}">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{ $price->id }}">
-                                    Delete
-                                </button>
-                            </td>
+                                @if($price->status)
+                                    <span class="badge bg-success">Active</span>
+                                @else
+                                    <span class="badge bg-danger">Inactive</span>
+                                @endif
+                            </td>                           
                         </tr>
-                        @include('price.info')
                         @endforeach
                     </tbody>
                 </table>
                 {{ $prices->links() }}
                 <br><br>
             </div>
-            @include('price.create')
         </div>
         <div class="col-md-2"></div>
     </main>

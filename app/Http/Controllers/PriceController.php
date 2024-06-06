@@ -12,14 +12,42 @@ class PriceController extends Controller
 {
     public function index(Request $request)
     {
-        $sort = $request->input('sort', 'asc'); // Obtener el parámetro de orden (asc por defecto)
+       // Obtener los parámetros de orden (asc por defecto) y de ordenación de la columna (ninguno por defecto)
+$sort = $request->input('sort', 'asc');
+$column = $request->input('column', '');
 
-        $prices = Price::with(['product', 'store'])
-            ->orderBy('price', $sort) // Ordenar por precio según el parámetro de orden
-            ->paginate(20);
+        
+        // Obtener los parámetros de filtro de la solicitud
+        $productName = $request->input('product_name');
+        $storeId = $request->input('store');
+        $datum = $request->input('datum');
+        $id = $request->input('id');
+        $query = Price::with(['product', 'store']);
+           
+        if ($productName) {
+            $productName = strtolower(trim($productName)); 
+            print_r($productName);
+            $query->whereHas('product', function ($query) use ($productName) {
+                $query->where('data', 'like', '%' . $productName . '%');
+            });
+        }        
+        
+        if ($storeId) {
+            $query->where('id_store', $storeId);
+        }
+        
+        if ($datum) {
+            $query->whereDate('created_at', Carbon::parse($datum)->format('Y-m-d'));
+        }
+        
+        if ($id) {
+            $query->where('id', $id);
+        }
+   
+        $prices = $query->orderBy('price', $sort)->paginate(20);      
         $products = Product::all();
         $stores = Store::all();
-        return view('price.index', compact('prices', 'products', 'stores'));
+        return view('price.index', compact('prices', 'products', 'stores', 'sort', 'column'));
     }
     
     public function store(Request $request)
