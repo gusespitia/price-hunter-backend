@@ -38,7 +38,13 @@
                 </form>
             </div>
                 <!-- Button trigger modal -->
-               
+                @if($categories->isEmpty())
+                <div class="alert alert-warning" role="alert">
+                    There is no information with the filters applied
+                     <!-- Button to reset filters -->
+                    <a href="{{ route('category.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
+                </div>
+            @else
             <!-- Table displaying categories -->
             <div class="table-responsive">
                 <table class="table table-striped table-dark">
@@ -110,6 +116,7 @@
                     </tbody>
                 </table>
             </div>
+            @endif
             <!-- Include modal for adding new category -->
             @include('category.create')
         </div>

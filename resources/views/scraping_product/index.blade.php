@@ -49,7 +49,15 @@
                     </div>
                 </form>
             </div>
-
+            @if($scrapingProducts->isEmpty())
+            <div class="alert alert-warning" role="alert">
+                There is no information with the filters applied
+              
+                    <!-- Button to reset filters -->
+                    <a href="{{ route('scraping_product.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
+            
+            </div>
+        @else
             <!-- Table displaying scraping products -->
             <div class="table-responsive">
                 <table class="table table-striped table-dark">
@@ -138,6 +146,7 @@
                 {{ $scrapingProducts->links() }}
                 <br><br>
             </div>
+            @endif
             <!-- Include modal for adding new scraping product -->
             @include('scraping_product.create')
         </div>

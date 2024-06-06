@@ -38,7 +38,13 @@
                         </div>
                     </form>
                 </div>
-    
+                @if($stores->isEmpty())
+                <div class="alert alert-warning" role="alert">
+                    There is no information with the filters applied
+                     <!-- Button to reset filters -->
+                    <a href="{{ route('store.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
+                </div>
+            @else
       
             <div class="table-responsive">
                 <table class="table table-striped table-dark">
@@ -115,6 +121,7 @@
                     </tbody>
                 </table>
             </div>
+            @endif
             @include('store.create')
         </div>
     </main>
