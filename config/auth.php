@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+            'expire' => 43200, // Duración del token en minutos (30 días)
+        ],
     ],
 
     /*

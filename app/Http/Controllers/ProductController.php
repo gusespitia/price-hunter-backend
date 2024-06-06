@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
-// app/Http/Controllers/ProductController.php
-
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -17,18 +16,24 @@ class ProductController extends Controller
         return view('product.index', compact('products', 'categories'));
     }
 
+    public function indexApi()
+    {
+        // Verificar si el usuario está autenticado utilizando la guardia 'api'
+        if (!Auth::guard('api')->check()) {
+            return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
+        }
 
+        // Obtener todos los productos
+        $products = Product::with('category')->get();
 
-
-       // Método indexApi para devolver todos los productos en formato JSON
-       public function indexApi()
-       {
-           $products = Product::with('category')->get();
-           if (count($products) == 0) {
+        // Verificar si hay productos
+        if ($products->isEmpty()) {
             return response()->json(['message' => 'There are no products.'], 404);
         }
-           return response()->json($products);
-       }
+
+        return response()->json($products);
+    }
+    
        // Método API para obtener productos por categoría
     public function getProductsByCategory(Request $request, $category)
     {
