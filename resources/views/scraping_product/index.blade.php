@@ -112,7 +112,13 @@
                             <td>{{ $scrapingProduct->slug }}</td>
                             <td>{{ $scrapingProduct->product->name }}</td>
                             <td>{{ $scrapingProduct->store->name }}</td>
-                            <td>{{ $scrapingProduct->status ? 'Active' : 'Inactive' }}</td>
+                            <td>
+                                @if($scrapingProduct->status)
+                                    <span class="badge bg-success">Active</span>
+                                @else
+                                    <span class="badge bg-danger">Inactive</span>
+                                @endif
+                            </td>  
                             <td>
                                 <!-- Buttons to edit and delete -->
                                 <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $scrapingProduct->id }}">

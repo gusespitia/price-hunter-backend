@@ -87,7 +87,13 @@
                         <tr>
                             <td>{{ $category->id }}</td>
                             <td>{{ $category->name }}</td>
-                            <td>{{ $category->status ? 'Active' : 'Inactive' }}</td>
+                            <td>
+                                @if($category->status)
+                                    <span class="badge bg-success">Active</span>
+                                @else
+                                    <span class="badge bg-danger">Inactive</span>
+                                @endif
+                            </td> 
                             <td>
                                 <!-- Buttons to edit and delete -->
                                 <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $category->id }}">

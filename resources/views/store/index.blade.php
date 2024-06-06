@@ -94,7 +94,13 @@
                             <td>{{ $store->name }}</td>
                             <td>{{ $store->url_base }}</td>
                             <td><img src="{{ $store->logo }}" alt="{{ $store->name }}" class="img-thumbnail w-8"></td>
-                            <td>{{ $store->status ? 'Active' : 'Inactive' }}</td>
+                            <td>
+                                @if($store->status)
+                                    <span class="badge bg-success">Active</span>
+                                @else
+                                    <span class="badge bg-danger">Inactive</span>
+                                @endif
+                            </td> 
                             <td class="d-flex">
                                 <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $store->id }}">
                                     <x-icons.pencil />
