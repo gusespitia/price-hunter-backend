@@ -21,20 +21,15 @@
 <input type="text" class="form-control" placeholder="Store Name" name="store_name" value="{{ request()->query('store_name') }}">
                             </div>
                             <!-- Add more filter inputs as needed -->
-                            <div class="col-md-2 col-sm-6 mb-2">
-                                <!-- Button to apply filters -->
-                                <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
-                            </div>
-                            <div class="col-md-2 col-sm-6 mb-2">
-                                <!-- Button to reset filters -->
+                            <div class="col-md-2 col-sm-2 mb-2">
+                                <button type="submit" class="btn btn-primary mr-2"><x-icons.search-circle /></button>
                                 <a href="{{ route('store.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
-                            </div>
-                            <div class="col-md-2 absolute w-content right-0 top-0 grid">
-                                <button type="button" class="btn btn-primary relative pl-10 w-40" data-bs-toggle="modal" data-bs-target="#create">
-                                    <x-icons.plus-circle class="absolute  "/>
-                                    Product
+                            </div>                       
+                            <div class="col-md-7 col-sm-12 d-flex justify-content-end mb-2">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create">
+                                    <x-icons.plus-circle />
                                 </button>
-                            </div>
+                            </div>  
                         </div>
                     </form>
                 </div>
