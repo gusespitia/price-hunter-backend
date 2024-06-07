@@ -31,12 +31,15 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 col-sm-6 mb-2">
-                            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
-                        </div>
-                        <div class="col-md-2 col-sm-6 mb-2">
+                        <div class="col-md-2 col-sm-2 mb-2">
+                            <button type="submit" class="btn btn-primary mr-2"><x-icons.search-circle /></button>
                             <a href="{{ route('price.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
-                        </div>
+                        </div>                       
+                        <div class="col-md-3 col-sm-12 d-flex justify-content-end mb-2">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create">
+                                <x-icons.plus-circle />
+                            </button>
+                        </div> 
                     </div>
                 </form>
             </div>
@@ -46,7 +49,7 @@
                 <div class="alert alert-warning" role="alert">
                     There is no information with the filters applied
                      <!-- Button to reset filters -->
-                    <a href="{{ route('scraping_product.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
+                    <a href="{{ route('price.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
                 </div>
             @else
                 <div class="table-responsive">

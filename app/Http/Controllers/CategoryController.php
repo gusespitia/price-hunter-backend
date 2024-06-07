@@ -7,24 +7,33 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request)
-    {
-        // Obtener parámetros de consulta
-        $columnName = $request->input('column_name');
-        $sort = $request->input('sort', 'asc'); // Orden predeterminado
+  // En el método index del controlador
+  public function index(Request $request)
+  {
+      // Obtener parámetros de consulta
+      $columnName = $request->input('column_name');
+      $sort = $request->input('sort', 'asc'); // Orden predeterminado
+      $categoryName = $request->input('category_name');
+  
+      // Aplicar ordenamiento si se proporciona
+      $query = Category::query();
+      if ($columnName) {
+          $query->orderBy($columnName, $sort);
+      }
+      
+      // Aplicar filtro por nombre de categoría si se proporciona
+      if ($categoryName) {
+          $query->where('name', 'like', '%' . $categoryName . '%');
+      }
+  
+      // Obtener todas las categorías
+      $categories = $query->get();
+  
+      // Devolver vista con datos
+      return view('category.index', compact('categories'));
+  }
+  
 
-        // Aplicar ordenamiento si se proporciona
-        $query = Category::query();
-        if ($columnName) {
-            $query->orderBy($columnName, $sort);
-        }
-
-        // Obtener todas las categorías
-        $categories = $query->get();
-
-        // Devolver vista con datos
-        return view('category.index', compact('categories'));
-    }
     
     public function store(Request $request)
     {
