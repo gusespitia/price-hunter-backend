@@ -11,23 +11,23 @@
                 </div>
 
                      <!-- Navigation Links -->
-                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                        <x-nav-link class=" dark:text-gray-800 dark:hover:text-blue-700 hover:-translate-y-1 transition-all 300 ease-in-out" href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('product.index') }}" :active="request()->routeIs('product.index')">
+                        <x-nav-link class=" dark:text-gray-800 dark:hover:text-blue-700 hover:-translate-y-1 transition-all 300 ease-in-out"   href="{{ route('product.index') }}" :active="request()->routeIs('product.index')">
                             {{ __('Products') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.index')">
+                        <x-nav-link class=" dark:text-gray-800 dark:hover:text-blue-700 hover:-translate-y-1 transition-all 300 ease-in-out"   href="{{ route('category.index') }}" :active="request()->routeIs('category.index')">
                             {{ __('Categories') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('store.index') }}" :active="request()->routeIs('store.index')">
+                        <x-nav-link class=" dark:text-gray-800 dark:hover:text-blue-700 hover:-translate-y-1 transition-all 300 ease-in-out"   href="{{ route('store.index') }}" :active="request()->routeIs('store.index')">
                             {{ __('Stores') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('scraping_product.index') }}" :active="request()->routeIs('scraping_product.index')">
+                        <x-nav-link class=" dark:text-gray-800 dark:hover:text-blue-700 hover:-translate-y-1 transition-all 300 ease-in-out"   href="{{ route('scraping_product.index') }}" :active="request()->routeIs('scraping_product.index')">
                             {{ __('Scraping Products') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('price.index') }}" :active="request()->routeIs('price.index')">
+                        <x-nav-link class=" dark:text-gray-800 dark:hover:text-blue-700 hover:-translate-y-1 transition-all 300 ease-in-out"  href="{{ route('price.index') }}" :active="request()->routeIs('price.index')">
                             {{ __('Prices') }}
                         </x-nav-link>
                     </div>
