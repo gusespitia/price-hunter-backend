@@ -107,13 +107,13 @@
                             @endif
                         </x-slot>
 
-                        <x-slot name="content">
+                        <x-slot name="content" class="">
                             <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
+                            <div class="block px-4 py-2 text-xs text-gray-900 dark:text-gray-900">
                                 {{ __('Manage Account') }}
                             </div>
 
-                            <x-dropdown-link href="{{ route('profile.show') }}">
+                            <x-dropdown-link href="{{ route('profile.show') }}" class="text-gray-900 dark:text-gray-900 no-underline">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
@@ -123,13 +123,13 @@
                                 </x-dropdown-link>
                             @endif
 
-                            <div class="border-t border-gray-200 dark:border-gray-600"></div>
+                            <div class="border-t border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-900"></div>
 
                             <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}" x-data>
+                            <form method="POST" action="{{ route('logout') }}" class="text-gray-900 dark:text-gray-900" x-data>
                                 @csrf
 
-                                <x-dropdown-link href="{{ route('logout') }}"
+                                <x-dropdown-link href="{{ route('logout') }}" class="text-gray-900 dark:text-gray-900 no-underline"
                                          @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>

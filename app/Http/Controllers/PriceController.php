@@ -106,7 +106,7 @@ class PriceController extends Controller
     {
         $today = Carbon::today();
         $prices = Price::with(['product', 'store'])
-            ->whereDate('created_at', $today)
+         //   ->whereDate('created_at', $today)
             ->where('status', 1)
             ->get();
 

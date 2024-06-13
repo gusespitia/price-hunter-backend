@@ -141,7 +141,7 @@
                         @foreach ($products as $product)
                         <tr>
                             <td>{{ $product->id }}</td>
-                            <td class="w-[200px]">{{ $product->name }}</td>
+                            <td class="min-w-[200px] max-w-4xl">{{ $product->name }}</td>
                             <td><img src="{{ $product->picture }}" alt="{{ $product->name }}" class="img-thumbnail w-12"></td>
                             <td>{{ $product->weight }}</td>
                             <td>{{ $product->presentation }}</td>
