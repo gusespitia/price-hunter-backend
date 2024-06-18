@@ -45,11 +45,7 @@ class ProductController extends Controller
 
     public function indexApi(Request $request)
     {
-        // // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        // if (!Auth::guard('api')->check()) {
-        //     return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        // }
-
+     
         $query = Product::with('category');
 
         // Aplicar filtros si existen

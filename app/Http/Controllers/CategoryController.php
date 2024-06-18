@@ -79,7 +79,7 @@ class CategoryController extends Controller
     // Método para manejar la ruta GET /categories/{categoryName}
     public function getProductsByCategory($categoryName)
     {
-        // Verificar si el usuario está autenticado utilizando la guardia 'api'
+        // // Verificar si el usuario está autenticado utilizando la guardia 'api'
         // if (!Auth::guard('api')->check()) {
         //     // Devolver una respuesta JSON indicando que el usuario no está autorizado
         //     return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
@@ -116,11 +116,11 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        // // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        // if (!Auth::guard('api')->check()) {
-        //     // Devolver una respuesta JSON indicando que el usuario no está autorizado
-        //     return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        // }
+        // Verificar si el usuario está autenticado utilizando la guardia 'api'
+        if (!Auth::guard('api')->check()) {
+            // Devolver una respuesta JSON indicando que el usuario no está autorizado
+            return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
+        }
 
         $category = new Category;
         $category->name = $request->input('name');
@@ -131,11 +131,11 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        // // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        // if (!Auth::guard('api')->check()) {
-        //     // Devolver una respuesta JSON indicando que el usuario no está autorizado
-        //     return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        // }
+        // Verificar si el usuario está autenticado utilizando la guardia 'api'
+        if (!Auth::guard('api')->check()) {
+            // Devolver una respuesta JSON indicando que el usuario no está autorizado
+            return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
+        }
 
         $category = Category::find($id);
         $category->name = $request->input('name');
@@ -146,11 +146,11 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        // // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        // if (!Auth::guard('api')->check()) {
-        //     // Devolver una respuesta JSON indicando que el usuario no está autorizado
-        //     return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        // }
+        // Verificar si el usuario está autenticado utilizando la guardia 'api'
+        if (!Auth::guard('api')->check()) {
+            // Devolver una respuesta JSON indicando que el usuario no está autorizado
+            return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
+        }
 
         $category = Category::find($id);
         $category->delete();
