@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/ScrapingProductController.php
 
 namespace App\Http\Controllers;
 
@@ -8,16 +7,13 @@ use App\Models\ScrapingProduct;
 use App\Models\Product;
 use App\Models\Store;
 
-
 class ScrapingProductController extends Controller
 {
     public function index(Request $request)
     {
-        // Obtener parámetros de consulta
         $productName = $request->input('product_name');
         $storeId = $request->input('store');
 
-        // Aplicar filtros si se proporcionan
         $query = ScrapingProduct::with('product', 'store');
         if ($productName) {
             $query->whereHas('product', function($query) use ($productName) {
@@ -28,52 +24,63 @@ class ScrapingProductController extends Controller
             $query->where('id_store', $storeId);
         }
 
-        // Aplicar ordenamiento si se proporciona
-        $column = $request->input('column', 'id'); // Columna predeterminada para ordenamiento
-        $sort = $request->input('sort', 'asc'); // Orden predeterminado
+        $column = $request->input('column', 'id');
+        $sort = $request->input('sort', 'asc');
         $query->orderBy($column, $sort);
 
-        // Obtener los scraping products paginados
         $scrapingProducts = $query->paginate(10);
-
-        // Obtener todos los productos y tiendas para los filtros
         $products = Product::all();
         $stores = Store::all();
 
-        // Devolver vista con datos
         return view('scraping_product.index', compact('scrapingProducts', 'products', 'stores'));
     }
     
-      // Método api para devolver los scraping products con la fecha de hoy y status 1
-  
-    
-    
+    public function create()
+    {
+        $products = Product::all();
+        $stores = Store::all();
+        return view('scraping_product.create', compact('products', 'stores'));
+    }
+
     public function store(Request $request)
     {
-        $scrapingProduct = new ScrapingProduct;
-        $scrapingProduct->slug = $request->input('slug');
-        $scrapingProduct->id_product = $request->input('id_product');
-        $scrapingProduct->id_store = $request->input('id_store');
-        $scrapingProduct->status = $request->input('status', true);
-        $scrapingProduct->save();
-        return redirect()->back();
+        $request->validate([
+            'slug' => 'required|string|max:255|min:3',
+            'id_product' => 'required|exists:products,id',
+            'id_store' => 'required|exists:stores,id',
+            'status' => 'boolean',
+        ]);
+
+        ScrapingProduct::create([
+            'slug' => $request->slug,
+            'id_product' => $request->id_product,
+            'id_store' => $request->id_store,
+            'status' => $request->status ?? 1,
+        ]);
+
+        return redirect()->route('scraping_product.index')->with('success', 'Scraping Product created successfully.');
     }
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'slug' => 'sometimes|required|string|max:255|min:3',
+            'id_product' => 'sometimes|required|exists:products,id',
+            'id_store' => 'sometimes|required|exists:stores,id',
+            'status' => 'sometimes|boolean',
+        ]);
+
         $scrapingProduct = ScrapingProduct::find($id);
-        $scrapingProduct->slug = $request->input('slug');
-        $scrapingProduct->id_product = $request->input('id_product');
-        $scrapingProduct->id_store = $request->input('id_store');
-        $scrapingProduct->status = $request->input('status');
-        $scrapingProduct->update();
-        return redirect()->back();
+        $scrapingProduct->update($request->only('slug', 'id_product', 'id_store', 'status'));
+
+        return redirect()->route('scraping_product.index')->with('success', 'Scraping Product updated successfully.');
     }
 
     public function destroy($id)
     {
         $scrapingProduct = ScrapingProduct::find($id);
         $scrapingProduct->delete();
-        return redirect()->back();
+
+        return redirect()->route('scraping_product.index')->with('success', 'Scraping Product deleted successfully.');
     }
 }

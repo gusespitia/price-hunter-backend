@@ -11,6 +11,17 @@
 
     <main>
         <div class="container mt-4">
+            <!-- Notification section -->
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <!-- Filter options -->
             <div class="mb-3">
                 <form method="GET" action="{{ route('price.index') }}">
@@ -18,14 +29,12 @@
                         <div class="col-md-3 col-sm-6 mb-2">
                             <input type="text" class="form-control" placeholder="Product Name" name="product_name">
                         </div>
-                     
                         <div class="col-md-2 col-sm-6 mb-2">
                             <input type="date" class="form-control" name="datum">
                         </div>
                         <div class="col-md-2 col-sm-6 mb-2">
                             <select class="form-select" name="store">
                                 <option value="">Select Store</option>
-                                <!-- Populate with store options -->
                                 @foreach($stores as $store)
                                     <option value="{{ $store->id }}">{{ $store->name }}</option>
                                 @endforeach
@@ -36,10 +45,10 @@
                             <a href="{{ route('price.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
                         </div>                       
                         <div class="col-md-3 col-sm-12 d-flex justify-content-end mb-2">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create">
+                            <a href="{{ route('price.create') }}" class="btn btn-primary">
                                 <x-icons.plus-circle />
-                            </button>
-                        </div> 
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -139,7 +148,8 @@
                                             <li><a class="dropdown-item" href="{{ route('price.index', ['sort' => 'desc', 'column' => 'status']) }}"><i class="bi bi-sort-descending"></i>Inactive</a></li>
                                         </ul>
                                     </div>
-                                </th>                     
+                                </th>  
+                                <th scope="col">Options</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -148,8 +158,8 @@
                                 <td>{{ $price->id }}</td>
                                 <td>{{ $price->data }}</td>
                                 <td>{{ $price->price }}</td>                                         
-                                <td>{{ $price->id_store }}</td>
-                                <td>{{ $price->id_product }}</td>
+                                <td>{{ $price->store->name }}</td>
+                                <td>{{ $price->product->name }}</td>
                                 <td>{{ $price->created_at }}</td>
                                 <td>
                                     @if($price->status)
@@ -157,8 +167,20 @@
                                     @else
                                         <span class="badge bg-danger">Inactive</span>
                                     @endif
-                                </td>                           
+                                </td>   
+                                <td class="d-flex">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-success me-2 px-2"
+                                        data-bs-toggle="modal" data-bs-target="#edit{{ $price->id }}">
+                                        <x-icons.pencil />
+                                    </button>
+                                    <button type="button" class="btn btn-danger px-2" data-bs-toggle="modal"
+                                        data-bs-target="#delete{{ $price->id }}">
+                                        <x-icons.trash />
+                                    </button>
+                                </td>                        
                             </tr>
+                            @include('price.info', ['price' => $price])
                             @endforeach
                         </tbody>
                     </table>
@@ -168,4 +190,3 @@
         </div>
     </main>
 </x-app-layout>
-

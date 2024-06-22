@@ -5,43 +5,82 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    // En el método index del controlador
+  
     public function index(Request $request)
     {
-      
-
-        // Obtener parámetros de consulta
         $columnName = $request->input('column_name');
-        $sort = $request->input('sort', 'asc'); // Orden predeterminado
+        $sort = $request->input('sort', 'asc'); 
         $categoryName = $request->input('category_name');
     
-        // Aplicar ordenamiento si se proporciona
         $query = Category::query();
         if ($columnName) {
             $query->orderBy($columnName, $sort);
         }
         
-        // Aplicar filtro por nombre de categoría si se proporciona
         if ($categoryName) {
             $query->where('name', 'like', '%' . $categoryName . '%');
         }
     
-        // Obtener todas las categorías
         $categories = $query->get();
     
-        // Devolver vista con datos
         return view('category.index', compact('categories'));
     }
 
-    /**
-     * Handles the route GET /categories
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+    public function create()
+    {
+        return view('category.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|min:3',
+            'status' => 'boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $category = new Category;
+        $category->name = $request->input('name');
+        $category->status = $request->input('status', true);
+        $category->save();
+
+        return redirect()->route('category.index')->with('success', 'Category created successfully.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
+            'status' => 'boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $category = Category::find($id);
+        $category->name = $request->input('name');
+        $category->status = $request->input('status');
+        $category->update();
+
+        return redirect()->route('category.index')->with('success', 'Category updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->route('category.index')->with('success', 'Category deleted successfully.');
+    }
+
+   
     public function indexApi(Request $request)
     {
         // // Verificar si el usuario está autenticado utilizando la guardia 'api'
@@ -114,46 +153,5 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 
-    public function store(Request $request)
-    {
-        // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        if (!Auth::guard('api')->check()) {
-            // Devolver una respuesta JSON indicando que el usuario no está autorizado
-            return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        }
-
-        $category = new Category;
-        $category->name = $request->input('name');
-        $category->status = $request->input('status', true);
-        $category->save();
-        return redirect()->back();
-    }
-
-    public function update(Request $request, $id)
-    {
-        // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        if (!Auth::guard('api')->check()) {
-            // Devolver una respuesta JSON indicando que el usuario no está autorizado
-            return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        }
-
-        $category = Category::find($id);
-        $category->name = $request->input('name');
-        $category->status = $request->input('status');
-        $category->update();
-        return redirect()->back();
-    }
-
-    public function destroy($id)
-    {
-        // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        if (!Auth::guard('api')->check()) {
-            // Devolver una respuesta JSON indicando que el usuario no está autorizado
-            return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        }
-
-        $category = Category::find($id);
-        $category->delete();
-        return redirect()->back();
-    }
+   
 }

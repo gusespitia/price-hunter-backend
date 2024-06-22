@@ -11,6 +11,17 @@
 
     <main class="relative">
         <div class="container mt-4">
+                 <!-- Notification section -->
+                 @if (session('success'))
+                 <div class="alert alert-success">
+                     {{ session('success') }}
+                 </div>
+             @endif
+             @if (session('error'))
+                 <div class="alert alert-danger">
+                     {{ session('error') }}
+                 </div>
+             @endif
             <!-- Filter options -->
             <div class="mb-3">
                 <form method="GET" action="{{ route('scraping_product.index') }}">
@@ -33,9 +44,9 @@
                             <a href="{{ route('scraping_product.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
                         </div>                       
                         <div class="col-md-5 col-sm-12 d-flex justify-content-end mb-2">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create">
+                            <a href="{{ route('scraping_product.create') }}" class="btn btn-primary">
                                 <x-icons.plus-circle />
-                            </button>
+                            </a>
                         </div>  
                     </div>
                 </form>

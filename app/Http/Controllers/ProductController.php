@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
@@ -42,10 +43,8 @@ class ProductController extends Controller
         return view('product.index', compact('products', 'categories'));
     }
     
-
     public function indexApi(Request $request)
     {
-     
         $query = Product::with('category');
 
         // Aplicar filtros si existen
@@ -109,6 +108,19 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|min:3',
+            'picture' => 'required|string|url|min:3',
+            'status' => 'boolean',
+            'weight' => 'required|string|max:45|min:3',
+            'presentation' => 'required|string|max:255|min:3',
+            'id_category' => 'required|exists:categories,id',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
         $product = new Product;
         $product->name = $request->input('name');
         $product->picture = $request->input('picture');
@@ -117,11 +129,25 @@ class ProductController extends Controller
         $product->presentation = $request->input('presentation');
         $product->id_category = $request->input('id_category');
         $product->save();
-        return redirect()->back();
+    
+        return redirect()->route('product.index')->with('success', 'Product created successfully.');
     }
-
+    
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
+            'picture' => 'sometimes|required|string',
+            'status' => 'boolean',
+            'weight' => 'sometimes|required|string|max:45',
+            'presentation' => 'sometimes|required|string|max:255',
+            'id_category' => 'sometimes|required|exists:categories,id',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
         $product = Product::find($id);
         $product->name = $request->input('name');
         $product->picture = $request->input('picture');
@@ -130,13 +156,15 @@ class ProductController extends Controller
         $product->presentation = $request->input('presentation');
         $product->id_category = $request->input('id_category');
         $product->update();
-        return redirect()->back();
+    
+        return redirect()->route('product.index')->with('success', 'Product updated successfully.');
     }
-
+    
     public function destroy($id)
     {
         $product = Product::find($id);
         $product->delete();
-        return redirect()->back();
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
     }
+    
 }

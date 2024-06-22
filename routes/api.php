@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\StoreController;
 
 
 Route::get('/user', function (Request $request) {
@@ -33,6 +34,7 @@ Route::get('/prices/{storeName}', [PriceController::class, 'getPricesByStore']);
 Route::get('/categories', [CategoryController::class, 'indexApi']);
 Route::get('/categories/{categoryName}', [CategoryController::class, 'getProductsByCategory']);
 Route::get('/categoriesById/{id}', [CategoryController::class, 'getCategoriesById']);
+Route::get('/stores', [StoreController::class, 'indexApi']);
 
 
 Route::middleware('auth:api')->group(function () { 

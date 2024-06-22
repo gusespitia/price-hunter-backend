@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -12,11 +11,9 @@ class PriceController extends Controller
 {
     public function index(Request $request)
     {
-        // Obtener los parámetros de orden (asc por defecto) y de ordenación de la columna (ninguno por defecto)
         $sort = $request->input('sort', 'asc');
         $query = Price::with(['product', 'store']);
 
-        // Obtener los parámetros de filtro de la solicitud
         $productName = $request->input('product_name');
         $storeId = $request->input('store');
         $datum = $request->input('datum');
@@ -25,7 +22,7 @@ class PriceController extends Controller
         if ($productName) {
             $productName = strtolower(trim($productName)); 
             $query->whereHas('product', function ($query) use ($productName) {
-                $query->where('data', 'like', '%' . $productName . '%');
+                $query->where('name', 'like', '%' . $productName . '%');
             });
         }        
         
@@ -48,12 +45,19 @@ class PriceController extends Controller
         return view('price.index', compact('prices', 'products', 'stores', 'sort'));
     }
     
+    public function create()
+    {
+        $products = Product::all();
+        $stores = Store::all();
+        return view('price.create', compact('products', 'stores'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'data' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'presentation' => 'required|string|max:255',
+            'data' => 'required|string|max:255|min:3',
+            'price' => 'required|numeric|min:1',
+            'presentation' => 'required|string|max:255|min:2',
             'id_product' => 'required|exists:products,id',
             'id_store' => 'required|exists:stores,id',
         ]);
@@ -69,7 +73,15 @@ class PriceController extends Controller
         return redirect()->route('price.index')->with('success', 'Price created successfully.');
     }
 
-    public function update(Request $request, $id_product, $id_store)
+    public function edit($id)
+    {
+        $price = Price::find($id);
+        $products = Product::all();
+        $stores = Store::all();
+        return view('price.edit', compact('price', 'products', 'stores'));
+    }
+
+    public function update(Request $request, $id)
     {
         $request->validate([
             'data' => 'required|string|max:255',
@@ -77,9 +89,7 @@ class PriceController extends Controller
             'presentation' => 'required|string|max:255',
         ]);
 
-        $price = Price::where('id_product', $id_product)
-                      ->where('id_store', $id_store)
-                      ->firstOrFail();
+        $price = Price::find($id);
 
         $price->update([
             'data' => $request->data,
@@ -90,23 +100,17 @@ class PriceController extends Controller
         return redirect()->route('price.index')->with('success', 'Price updated successfully.');
     }
 
-    public function destroy($id_product, $id_store)
+    public function destroy($id)
     {
-        $price = Price::where('id_product', $id_product)
-                      ->where('id_store', $id_store)
-                      ->firstOrFail();
-
+        $price = Price::find($id);
         $price->delete();
 
         return redirect()->route('price.index')->with('success', 'Price deleted successfully.');
     }
 
-    // Método api para devolver los precios con la fecha de hoy y status 1
     public function indexApi()
     {
-        $today = Carbon::today();
         $prices = Price::with(['product', 'store'])
-         //   ->whereDate('created_at', $today)
             ->where('status', 1)
             ->get();
 
@@ -117,7 +121,6 @@ class PriceController extends Controller
         return response()->json($prices);
     }
 
-    // Método api para devolver los precios de una tienda específica con la fecha de hoy y status 1
     public function getPricesByStore(Request $request, $storeName)
     {
         $validStores = [
