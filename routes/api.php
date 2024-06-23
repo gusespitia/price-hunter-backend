@@ -32,7 +32,7 @@ Route::get('/products/category/{id}', [ProductController::class, 'getProductsByC
 Route::get('/prices', [PriceController::class, 'indexApi']);
 Route::get('/prices/{storeName}', [PriceController::class, 'getPricesByStore']);
 Route::get('/categories', [CategoryController::class, 'indexApi']);
-Route::get('/categories/{categoryName}', [CategoryController::class, 'getProductsByCategory']);
+Route::get('/categories/{categoryName}', [CategoryController::class, 'getProductsByCategoryName']);
 Route::get('/categoriesById/{id}', [CategoryController::class, 'getCategoriesById']);
 Route::get('/stores', [StoreController::class, 'indexApi']);
 

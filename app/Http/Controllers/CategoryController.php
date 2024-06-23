@@ -83,11 +83,7 @@ class CategoryController extends Controller
    
     public function indexApi(Request $request)
     {
-        // // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        // if (!Auth::guard('api')->check()) {
-        //     // Devolver una respuesta JSON indicando que el usuario no está autorizado
-        //     return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        // }
+        
 
         // Crear una nueva consulta para el modelo Category
         $query = Category::query();
@@ -116,13 +112,9 @@ class CategoryController extends Controller
     }
 
     // Método para manejar la ruta GET /categories/{categoryName}
-    public function getProductsByCategory($categoryName)
+    public function getProductsByCategoryName($categoryName)
     {
-        // // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        // if (!Auth::guard('api')->check()) {
-        //     // Devolver una respuesta JSON indicando que el usuario no está autorizado
-        //     return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        // }
+     
 
         $category = Category::where('name', $categoryName)->first();
 
@@ -138,11 +130,7 @@ class CategoryController extends Controller
     // Método para manejar la ruta GET /categoriesById/{id}
     public function getCategoriesById($id)
     {
-        // // Verificar si el usuario está autenticado utilizando la guardia 'api'
-        // if (!Auth::guard('api')->check()) {
-        //     // Devolver una respuesta JSON indicando que el usuario no está autorizado
-        //     return response()->json(['error' => 'Unauthorized. Please provide a valid authentication token.'], 401);
-        // }
+      
 
         $category = Category::find($id);
 

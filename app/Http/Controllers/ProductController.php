@@ -112,8 +112,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:255|min:3',
             'picture' => 'required|string|url|min:3',
             'status' => 'boolean',
-            'weight' => 'required|string|max:45|min:3',
-            'presentation' => 'required|string|max:255|min:3',
+            'weight' => 'required|string|max:45|min:1',
+            'presentation' => 'required|string|max:255|min:1',
             'id_category' => 'required|exists:categories,id',
         ]);
     
