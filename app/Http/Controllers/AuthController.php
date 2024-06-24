@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRegisterRequest;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -25,12 +26,14 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only(['email', 'password']);
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
         }
 
         return $this->respondWithToken($token);
