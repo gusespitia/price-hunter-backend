@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-600 dark:text-gray-600 leading-tight">
             {{ __('Products') }}
         </h2>
     </x-slot>
@@ -64,7 +64,6 @@
                 </form>
             </div>
             <!-- Button trigger modal -->
-            <!-- Button trigger modal -->
             @if ($products->isEmpty())
                 <div class="alert alert-warning" role="alert">
                     There is no information with the filters applied
@@ -73,18 +72,17 @@
                 </div>
             @else
                 <div class="table-responsive">
-                    <table class="table table-striped table-dark">
+                    <table class="table table-striped table-dark text-sm">
                         <thead>
                             <tr>
-                                <th scope="col">
-                                    ID
+                                <th scope="col">ID
                                     <div class="dropdown d-inline">
                                         <span
                                             class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"
                                             id="dropdownMenuButton10" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton10">
                                             <li><a class="dropdown-item"
                                                     href="{{ route('product.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'id'])) }}"><i
                                                         class="bi bi-sort-ascending"></i> Asc</a></li>
@@ -94,15 +92,14 @@
                                         </ul>
                                     </div>
                                 </th>
-                                <th scope="col">
-                                    Product Name
+                                <th scope="col">Product Name
                                     <div class="dropdown d-inline">
                                         <span
                                             class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"
                                             id="dropdownMenuButton11" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton11">
                                             <li><a class="dropdown-item"
                                                     href="{{ route('product.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'name'])) }}"><i
                                                         class="bi bi-sort-ascending"></i> Asc</a></li>
@@ -113,15 +110,14 @@
                                     </div>
                                 </th>
                                 <th scope="col">Picture</th>
-                                <th scope="col">
-                                    Weight
+                                <th scope="col">Weight
                                     <div class="dropdown d-inline">
                                         <span
                                             class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"
                                             id="dropdownMenuButton12" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton12">
                                             <li><a class="dropdown-item"
                                                     href="{{ route('product.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'weight'])) }}"><i
                                                         class="bi bi-sort-ascending"></i> Asc</a></li>
@@ -131,15 +127,14 @@
                                         </ul>
                                     </div>
                                 </th>
-                                <th scope="col">
-                                    Presentation
+                                <th scope="col">Presentation
                                     <div class="dropdown d-inline">
                                         <span
                                             class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"
                                             id="dropdownMenuButton14" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton14">
                                             <li><a class="dropdown-item"
                                                     href="{{ route('product.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'presentation'])) }}"><i
                                                         class="bi bi-sort-ascending"></i> Asc</a></li>
@@ -149,8 +144,7 @@
                                         </ul>
                                     </div>
                                 </th>
-                                <th scope="col">
-                                    Cat
+                                <th scope="col">Category
                                     <div class="dropdown d-inline">
                                         <span
                                             class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"
@@ -158,7 +152,7 @@
                                             aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton5">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton15">
                                             <li><a class="dropdown-item"
                                                     href="{{ route('product.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'category_id'])) }}"><i
                                                         class="bi bi-sort-ascending"></i> Asc</a></li>
@@ -168,8 +162,7 @@
                                         </ul>
                                     </div>
                                 </th>
-                                <th scope="col">
-                                    Status
+                                <th scope="col">Status
                                     <div class="dropdown d-inline">
                                         <span
                                             class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"
@@ -177,18 +170,17 @@
                                             aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton16">
                                             <li><a class="dropdown-item"
                                                     href="{{ route('product.index', ['sort' => 'asc', 'column' => 'status']) }}"><i
                                                         class="bi bi-sort-ascending"></i>Active</a></li>
                                             <li><a class="dropdown-item"
                                                     href="{{ route('product.index', ['sort' => 'desc', 'column' => 'status']) }}"><i
-                                                        class="bi bi-sort-descending'></i>Inactive</a></li>
-                                    </ul>
-                                </div>
-                            </th>   
-                            <th scope="col">Options
+                                                        class="bi-sort-descending"></i>Inactive</a></li>
+                                        </ul>
+                                    </div>
                                 </th>
+                                <th scope="col">Options</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -197,7 +189,7 @@
                                     <td>{{ $product->id }}</td>
                                     <td class="min-w-[200px] max-w-4xl">{{ $product->name }}</td>
                                     <td><img src="{{ $product->picture }}" alt="{{ $product->name }}"
-                                            class="img-thumbnail w-12"></td>
+                                            class="img-thumbnail w-8 h-8"></td>
                                     <td>{{ $product->weight }}</td>
                                     <td>{{ $product->presentation }}</td>
                                     <td>{{ $product->category->name }}</td>
@@ -225,7 +217,7 @@
                         </tbody>
                     </table>
                     <!-- Show pagination only if there are more than 10 products -->
-                    @if ($products->total() > 10)
+                    @if ($products->total() > 20)
                         {{ $products->links() }}
                     @endif
                 </div>

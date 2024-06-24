@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-600 dark:text-gray-600 leading-tight">
             {{ __('Scraping Products') }}
         </h2>
     </x-slot>
@@ -62,7 +62,7 @@
             @else
                 <!-- Table displaying scraping products -->
                 <div class="table-responsive">
-                    <table class="table table-striped table-dark">
+                    <table class="table table-striped table-dark text-sm">
                         <thead>
                             <tr>
                                 <th scope="col">ID
@@ -115,6 +115,17 @@
                                             <i class="bi bi-sort"></i>
                                         </span>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                            <li><a class="dropdown-item" href="{{ route('scraping_product.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'created_at'])) }}"><i class="bi bi-sort-ascending"></i> Asc</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('scraping_product.index', array_merge(request()->query(), ['sort' => 'desc', 'column' => 'created_at'])) }}"><i class="bi bi-sort-descending"></i> Desc</a></li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">Created at
+                                    <div class="dropdown d-inline">
+                                        <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0" id="dropdownMenuButton10" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-sort"></i>
+                                        </span>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                                             <li><a class="dropdown-item" href="{{ route('scraping_product.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'status'])) }}"><i class="bi bi-sort-ascending"></i> Asc</a></li>
                                             <li><a class="dropdown-item" href="{{ route('scraping_product.index', array_merge(request()->query(), ['sort' => 'desc', 'column' => 'status'])) }}"><i class="bi bi-sort-descending"></i> Desc</a></li>
                                         </ul>
@@ -137,6 +148,7 @@
                                         <span class="badge bg-danger">Inactive</span>
                                     @endif
                                 </td>  
+                                <td>{{ $scrapingProduct->created_at }}</td>
                                 <td>
                                     <!-- Buttons to edit and delete -->
                                     <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $scrapingProduct->id }}">
@@ -153,12 +165,13 @@
                         </tbody>
                     </table>
                     <!-- Pagination links -->
+                    @if ($scrapingProducts->total() > 20)
                     {{ $scrapingProducts->links() }}
+                @endif
                     <br><br>
                 </div>
             @endif
-            <!-- Include modal for adding new scraping product -->
-            @include('scraping_product.create')
+         
         </div>
     </main>
 </x-app-layout>

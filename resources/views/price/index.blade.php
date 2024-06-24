@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-600 dark:text-gray-600 leading-tight">
             {{ __('Prices') }}
         </h2>
     </x-slot>
@@ -9,7 +9,7 @@
         {{ __('Prices') }}
     </x-slot>
 
-    <main>
+    <main class="flex justify-center">
         <div class="container mt-4">
             <!-- Notification section -->
             @if (session('success'))
@@ -22,17 +22,18 @@
                     {{ session('error') }}
                 </div>
             @endif
+
             <!-- Filter options -->
             <div class="mb-3">
                 <form method="GET" action="{{ route('price.index') }}">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 mb-2">
+                    <div class="row g-2">
+                        <div class="col-md-3 col-sm-6">
                             <input type="text" class="form-control" placeholder="Product Name" name="product_name">
                         </div>
-                        <div class="col-md-2 col-sm-6 mb-2">
+                        <div class="col-md-2 col-sm-6">
                             <input type="date" class="form-control" name="datum">
                         </div>
-                        <div class="col-md-2 col-sm-6 mb-2">
+                        <div class="col-md-2 col-sm-6">
                             <select class="form-select" name="store">
                                 <option value="">Select Store</option>
                                 @foreach($stores as $store)
@@ -40,11 +41,15 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 col-sm-2 mb-2">
-                            <button type="submit" class="btn btn-primary mr-2"><x-icons.search-circle /></button>
-                            <a href="{{ route('price.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
-                        </div>                       
-                        <div class="col-md-3 col-sm-12 d-flex justify-content-end mb-2">
+                        <div class="col-md-2 col-sm-2">
+                            <button type="submit" class="btn btn-primary mr-2">
+                                <x-icons.search-circle />
+                            </button>
+                            <a href="{{ route('price.index') }}" class="btn btn-warning">
+                                <x-icons.refresh />
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-sm-12 d-flex justify-content-end">
                             <a href="{{ route('price.create') }}" class="btn btn-primary">
                                 <x-icons.plus-circle />
                             </a>
@@ -57,16 +62,18 @@
             @if($prices->isEmpty())
                 <div class="alert alert-warning" role="alert">
                     There is no information with the filters applied
-                     <!-- Button to reset filters -->
-                    <a href="{{ route('price.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
+                    <!-- Button to reset filters -->
+                    <a href="{{ route('price.index') }}" class="btn btn-warning">
+                        <x-icons.refresh />
+                    </a>
                 </div>
             @else
                 <div class="table-responsive">
-                    <table class="table table-striped table-dark">
+                    <table class="table table-striped table-dark text-sm">
                         <thead>
                             <tr>
-                                <th scope="col">
-                                    ID
+                                <th scope="col" class="w-10 text-center px-0 mx-0">
+                                    id
                                     <div class="dropdown d-inline">
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"  id="dropdownMenuButton20" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-sort"></i>
@@ -77,7 +84,7 @@
                                         </ul>
                                     </div>
                                 </th>
-                                <th scope="col">
+                                <th scope="col" class="w-26 text-left text-xs">
                                     Product Name
                                     <div class="dropdown d-inline">
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"  id="dropdownMenuButton21" data-bs-toggle="dropdown" aria-expanded="false">
@@ -89,7 +96,7 @@
                                         </ul>
                                     </div>
                                 </th>
-                                <th scope="col">
+                                <th scope="col" class="w-20 text-left">
                                     Price
                                     <div class="dropdown d-inline">
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"  id="dropdownMenuButton22" data-bs-toggle="dropdown" aria-expanded="false">
@@ -125,7 +132,7 @@
                                         </ul>
                                     </div>
                                 </th>                          
-                                <th scope="col">
+                                <th scope="col" class="w-24 text-left text-xs">
                                     Created at
                                     <div class="dropdown d-inline">
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"  id="dropdownMenuButton25" data-bs-toggle="dropdown" aria-expanded="false">
@@ -137,7 +144,7 @@
                                         </ul>
                                     </div>
                                 </th>                            
-                                <th scope="col">
+                                <th scope="col" class="w-14 text-left text-xs">
                                     Status
                                     <div class="dropdown d-inline">
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"  id="dropdownMenuButton26" data-bs-toggle="dropdown" aria-expanded="false">
@@ -154,37 +161,37 @@
                         </thead>
                         <tbody>
                             @foreach ($prices as $price)
-                            <tr>
-                                <td>{{ $price->id }}</td>
-                                <td>{{ $price->data }}</td>
-                                <td>{{ $price->price }}</td>                                         
-                                <td>{{ $price->store->name }}</td>
-                                <td>{{ $price->product->name }}</td>
-                                <td>{{ $price->created_at }}</td>
-                                <td>
-                                    @if($price->status)
-                                        <span class="badge bg-success">Active</span>
-                                    @else
-                                        <span class="badge bg-danger">Inactive</span>
-                                    @endif
-                                </td>   
-                                <td class="d-flex">
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-success me-2 px-2"
-                                        data-bs-toggle="modal" data-bs-target="#edit{{ $price->id }}">
-                                        <x-icons.pencil />
-                                    </button>
-                                    <button type="button" class="btn btn-danger px-2" data-bs-toggle="modal"
-                                        data-bs-target="#delete{{ $price->id }}">
-                                        <x-icons.trash />
-                                    </button>
-                                </td>                        
-                            </tr>
-                            @include('price.info', ['price' => $price])
+                                <tr>
+                                    <td>{{ $price->id }}</td>
+                                    <td>{{ $price->product->name }}</td>
+                                    <td>{{ $price->price }}</td>
+                                    <td>{{ $price->store->name }}</td>
+                                    <td class="text-center">{{ $price->id_product }}</td>
+                                    <td>{{ $price->created_at }}</td>
+                                    <td>
+                                        @if($price->status)
+                                            <span class="badge bg-success">Active</span>
+                                        @else
+                                            <span class="badge bg-danger">Inactive</span>
+                                        @endif
+                                    </td>
+                                    <td class="d-flex">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-success me-2 px-2" data-bs-toggle="modal" data-bs-target="#edit{{ $price->id }}">
+                                            <x-icons.pencil />
+                                        </button>
+                                        <button type="button" class="btn btn-danger px-2" data-bs-toggle="modal" data-bs-target="#delete{{ $price->id }}">
+                                            <x-icons.trash />
+                                        </button>
+                                    </td>
+                                </tr>
+                                @include('price.info', ['price' => $price])
                             @endforeach
                         </tbody>
                     </table>
+                    @if ($prices->total() > 20)
                     {{ $prices->links() }}
+                @endif
                 </div>
             @endif
         </div>

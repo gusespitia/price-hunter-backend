@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-600 dark:text-gray-600 leading-tight">
             {{ __('Categories') }}
         </h2>
     </x-slot>
@@ -9,8 +9,8 @@
         {{ __('Categories') }}
     </x-slot>
 
-    <main class="relative">
-        <div class="container mt-4">
+    <main class="relative mx-auto">
+        <div class="w-full mt-4 text-sm mx-auto container">
             <!-- Notification section -->
             @if (session('success'))
                 <div class="alert alert-success">
@@ -51,15 +51,15 @@
             @else
                 <!-- Table displaying categories -->
                 <div class="table-responsive">
-                    <table class="table table-striped table-dark">
-                        <thead>
+                    <table class="table table-striped table-dark table-hover">
+                        <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Category ID
+                                <th scope="col" class="w-20 text-center">ID
                                     <div class="dropdown d-inline">
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0" id="dropdownMenuButton10" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton10">
                                             <li><a class="dropdown-item" href="{{ route('category.index', ['column_name' => 'id', 'sort' => 'asc']) }}"><i class="bi bi-sort-ascending"></i> Asc</a></li>
                                             <li><a class="dropdown-item" href="{{ route('category.index', ['column_name' => 'id', 'sort' => 'desc']) }}"><i class="bi bi-sort-descending"></i> Desc</a></li>
                                         </ul>
@@ -70,20 +70,31 @@
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0" id="dropdownMenuButton11" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton11">
                                             <li><a class="dropdown-item" href="{{ route('category.index', ['column_name' => 'name', 'sort' => 'asc']) }}"><i class="bi bi-sort-ascending"></i> Asc</a></li>
                                             <li><a class="dropdown-item" href="{{ route('category.index', ['column_name' => 'name', 'sort' => 'desc']) }}"><i class="bi bi-sort-descending"></i> Desc</a></li>
                                         </ul>
                                     </div>
                                 </th>
-                                <th scope="col">Status
+                                <th scope="col" class="w-20">Status
                                     <div class="dropdown d-inline">
-                                        <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0" id="dropdownMenuButton10" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0" id="dropdownMenuButton12" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="bi bi-sort"></i>
                                         </span>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton12">
                                             <li><a class="dropdown-item" href="{{ route('category.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'status'])) }}"><i class="bi bi-sort-ascending"></i> Asc</a></li>
                                             <li><a class="dropdown-item" href="{{ route('category.index', array_merge(request()->query(), ['sort' => 'desc', 'column' => 'status'])) }}"><i class="bi bi-sort-descending"></i> Desc</a></li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col" class="w-25">Created at
+                                    <div class="dropdown d-inline">
+                                        <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0" id="dropdownMenuButton12" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-sort"></i>
+                                        </span>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton12">
+                                            <li><a class="dropdown-item" href="{{ route('category.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'created_at'])) }}"><i class="bi bi-sort-ascending"></i> Asc</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('category.index', array_merge(request()->query(), ['sort' => 'desc', 'column' => 'created_at'])) }}"><i class="bi bi-sort-descending"></i> Desc</a></li>
                                         </ul>
                                     </div>
                                 </th>
@@ -93,7 +104,7 @@
                         <tbody>
                             @foreach ($categories as $category)
                             <tr>
-                                <td>{{ $category->id }}</td>
+                                <td class="text-center">{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>
                                     @if($category->status)
@@ -102,11 +113,13 @@
                                         <span class="badge bg-danger">Inactive</span>
                                     @endif
                                 </td> 
-                                <td>
-                                    <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $category->id }}">
+                                <td>{{ $category->created_at }}</td>
+                                <td class="d-flex">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-success me-2 px-2" data-bs-toggle="modal" data-bs-target="#edit{{ $category->id }}">
                                         <x-icons.pencil />
                                     </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{ $category->id }}">
+                                    <button type="button" class="btn btn-danger px-2" data-bs-toggle="modal" data-bs-target="#delete{{ $category->id }}">
                                         <x-icons.trash />
                                     </button>
                                 </td>
@@ -115,6 +128,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {{ $categories->links() }} 
+                    </div>
                 </div>
             @endif
         </div>

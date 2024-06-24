@@ -13,34 +13,45 @@ class ScrapingProductController extends Controller
     {
         $productName = $request->input('product_name');
         $storeId = $request->input('store');
-
+    
         $query = ScrapingProduct::with('product', 'store');
+    
         if ($productName) {
             $query->whereHas('product', function($query) use ($productName) {
                 $query->where('name', 'like', "%$productName%");
             });
         }
+    
         if ($storeId) {
             $query->where('id_store', $storeId);
         }
-
+    
+        // Set default column and sort direction
         $column = $request->input('column', 'id');
         $sort = $request->input('sort', 'asc');
+    
+        // Apply sorting
         $query->orderBy($column, $sort);
-
-        $scrapingProducts = $query->paginate(10);
+    
+        // Paginate results
+        $scrapingProducts = $query->paginate(20) ;
+    
+        // Fetch products and stores
         $products = Product::all();
         $stores = Store::all();
-
+    
         return view('scraping_product.index', compact('scrapingProducts', 'products', 'stores'));
     }
     
+    
     public function create()
     {
-        $products = Product::all();
+        $products = Product::orderBy('id', 'desc')->get(); // Ordenar productos por ID de manera descendente
         $stores = Store::all();
+    
         return view('scraping_product.create', compact('products', 'stores'));
     }
+    
 
     public function store(Request $request)
     {

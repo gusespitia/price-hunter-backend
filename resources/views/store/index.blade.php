@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-600 dark:text-gray-600 leading-tight">
             {{ __('Stores') }}
         </h2>
     </x-slot>
@@ -51,7 +51,7 @@
                 </div>
             @else
                 <div class="table-responsive">
-                    <table class="table table-striped table-dark">
+                    <table class="table table-striped table-dark text-sm">
                         <thead>
                             <tr>
                                 <th scope="col">Store ID
@@ -99,6 +99,17 @@
                                         </ul>
                                     </div>
                                 </th>
+                                <th scope="col">Created at
+                                    <div class="dropdown d-inline">
+                                        <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0" id="dropdownMenuButton10" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-sort"></i>
+                                        </span>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                            <li><a class="dropdown-item" href="{{ route('store.index', array_merge(request()->query(), ['sort' => 'asc', 'column' => 'created_at'])) }}"><i class="bi bi-sort-ascending"></i> Asc</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('store.index', array_merge(request()->query(), ['sort' => 'desc', 'column' => 'created_at'])) }}"><i class="bi bi-sort-descending"></i> Desc</a></li>
+                                        </ul>
+                                    </div>
+                                </th>
                                 <th scope="col">Options</th>
                             </tr>
                         </thead>
@@ -116,6 +127,7 @@
                                             <span class="badge bg-danger">Inactive</span>
                                         @endif
                                     </td> 
+                                    <td>{{ $store->created_at }}</td>
                                     <td class="d-flex">
                                         <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#edit{{ $store->id }}">
                                             <x-icons.pencil />

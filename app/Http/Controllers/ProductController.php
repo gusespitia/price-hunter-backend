@@ -37,7 +37,8 @@ class ProductController extends Controller
             $query->orderBy($column, $request->input('sort'));
         }
     
-        $products = $query->paginate(10);
+       $products = $query->orderBy('id', 'asc')->paginate(20);
+
         $categories = Category::all(); // Obtener todas las categorías
     
         return view('product.index', compact('products', 'categories'));
