@@ -20,11 +20,12 @@ class AuthController extends Controller
             'email' => $validateData['email'],
             'password' => Hash::make($validateData['password']),
         ]);
-
+    
         $token = auth('api')->login($user);
-
+    
         return $this->respondWithToken($token);
     }
+    
 
     public function login(Request $request)
     {
