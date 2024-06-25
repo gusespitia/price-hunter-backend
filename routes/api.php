@@ -7,7 +7,7 @@ use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ListController;
-use App\Http\Controllers\ListController;
+
 
 // Rutas para la autenticación de clientes
 Route::group(['prefix' => 'customer-auth'], function () {
