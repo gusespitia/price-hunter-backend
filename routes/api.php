@@ -1,43 +1,48 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PriceController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\ListController;
+use App\Http\Controllers\ListController;
 
-
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
-    Route::middleware('auth:api')->post('me', [AuthController::class, 'me']);
-    Route::middleware('auth:api')->post('logout', [AuthController::class, 'logout']);
-    Route::middleware('auth:api')->post('refresh', [AuthController::class, 'refresh']);
-    Route::middleware('auth:api')->post('update-profile', [AuthController::class, 'updateProfile']);
-    Route::middleware('auth:api')->delete('delete-user', [AuthController::class, 'deleteUser']);
+// Rutas para la autenticación de clientes
+Route::group(['prefix' => 'customer-auth'], function () {
+    Route::post('login', [CustomerAuthController::class, 'login']);
+    Route::post('register', [CustomerAuthController::class, 'register']);
+    Route::middleware('auth:customer-api')->post('me', [CustomerAuthController::class, 'me']);
+    Route::middleware('auth:customer-api')->post('logout', [CustomerAuthController::class, 'logout']);
+    Route::middleware('auth:customer-api')->post('refresh', [CustomerAuthController::class, 'refresh']);
+    Route::middleware('auth:customer-api')->post('update-profile', [CustomerAuthController::class, 'updateProfile']);
+    Route::middleware('auth:customer-api')->delete('delete-user', [CustomerAuthController::class, 'deleteUser']);
 });
 
-
+// Rutas para productos
 Route::get('/products', [ProductController::class, 'indexApi']);
 Route::get('/products/{id}', [ProductController::class, 'showApi']);
 Route::get('/products/category/{id}', [ProductController::class, 'getProductsByCategory']);
+
+// Rutas para precios
 Route::get('/prices', [PriceController::class, 'indexApi']);
 Route::get('/prices/{storeName}', [PriceController::class, 'getPricesByStore']);
+
+// Rutas para categorías
 Route::get('/categories', [CategoryController::class, 'indexApi']);
 Route::get('/categories/{categoryName}', [CategoryController::class, 'getProductsByCategoryName']);
 Route::get('/categoriesById/{id}', [CategoryController::class, 'getCategoriesById']);
+
+// Rutas para tiendas
 Route::get('/stores', [StoreController::class, 'indexApi']);
 
 
-Route::middleware('auth:api')->group(function () { 
-     //  Route::get('/products', [ProductController::class, 'indexApi']);    
+
+Route::middleware('auth:customer-api')->group(function () {
+    Route::post('/lists', [ListController::class, 'store']);
+    Route::get('/lists', [ListController::class, 'index']);
+    Route::get('/lists/{id}', [ListController::class, 'show']);
+    Route::put('/lists/{id}', [ListController::class, 'update']);
+    Route::delete('/lists/{id}', [ListController::class, 'destroy']);
 });
