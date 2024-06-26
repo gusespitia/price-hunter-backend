@@ -132,7 +132,7 @@
                                         </ul>
                                     </div>
                                 </th>                          
-                                <th scope="col" class="w-24 text-left text-xs">
+                                <th scope="col" class="w-26 text-left text-xs">
                                     Created at
                                     <div class="dropdown d-inline">
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"  id="dropdownMenuButton25" data-bs-toggle="dropdown" aria-expanded="false">
@@ -144,7 +144,7 @@
                                         </ul>
                                     </div>
                                 </th>                            
-                                <th scope="col" class="w-14 text-left text-xs">
+                                <th scope="col" class="w-18 text-left text-xs">
                                     Status
                                     <div class="dropdown d-inline">
                                         <span class="btn btn-sm btn-secondary dropdown-toggle px-0 py-0 bg-transparent border-0"  id="dropdownMenuButton26" data-bs-toggle="dropdown" aria-expanded="false">
