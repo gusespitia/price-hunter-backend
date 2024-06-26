@@ -1,9 +1,8 @@
 <?php
-
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
 use Illuminate\Http\Request;
-use App\Models\CustomerList; // Usa el nombre correcto del modelo para la tabla lists
+use App\Models\CustomerList; 
 use Illuminate\Support\Facades\Auth;
 
 class ListController extends Controller

@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PriceController;
-use App\Http\Controllers\CustomerAuthController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\StoreController;
-use App\Http\Controllers\ListController;
+use App\Http\Controllers\api\v1\PriceController;
+use App\Http\Controllers\api\v1\CustomerAuthController;
+use App\Http\Controllers\api\v1\CategoryController;
+use App\Http\Controllers\api\v1\ProductController;
+use App\Http\Controllers\api\v1\StoreController;
+use App\Http\Controllers\api\v1\ListController;
 
 
 // Rutas para la autenticación de clientes
