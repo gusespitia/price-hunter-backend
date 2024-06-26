@@ -9,17 +9,27 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-  
-   
-   
+    /**
+     * List all categories.
+     *
+     * @group Categories
+     *
+     * @queryParam name string Filter by category name. Example: Electronics
+     * @queryParam id integer Filter by category ID. Example: 1
+     * @queryParam status boolean Filter by category status. Example: true
+     *
+     * @response 200 {
+     *     "id": 1,
+     *     "name": "Electronics",
+     *     "status": true,
+     *     "created_at": "2021-09-15T14:59:48.000000Z",
+     *     "updated_at": "2021-09-15T14:59:48.000000Z"
+     * }
+     */
     public function indexApi(Request $request)
     {
-        
-
-        // Crear una nueva consulta para el modelo Category
         $query = Category::query();
 
-        // Aplicar filtros si existen
         if ($request->filled('name')) {
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
@@ -30,39 +40,66 @@ class CategoryController extends Controller
             $query->where('status', $request->input('status'));
         }
 
-        // Ejecutar la consulta y obtener todas las categorías
         $categories = $query->get();
 
-        // Verificar si hay categorías
         if ($categories->isEmpty()) {
             return response()->json(['message' => 'There are no categories.'], 404);
         }
 
-        // Devolver una respuesta JSON con las categorías
         return response()->json($categories);
     }
 
-    // Método para manejar la ruta GET /categories/{categoryName}
+    /**
+     * Get products by category name.
+     *
+     * @group Categories
+     *
+     * @urlParam categoryName string required The name of the category. Example: Electronics
+     *
+     * @response 200 {
+     *     "id": 1,
+     *     "name": "Laptop",
+     *     "category_id": 1,
+     *     "created_at": "2021-09-15T14:59:48.000000Z",
+     *     "updated_at": "2021-09-15T14:59:48.000000Z"
+     * }
+     * @response 404 {
+     *     "message": "Category not found."
+     * }
+     */
     public function getProductsByCategoryName($categoryName)
     {
-     
-
         $category = Category::where('name', $categoryName)->first();
 
         if (!$category) {
             return response()->json(['message' => 'Category not found.'], 404);
         }
 
-        $products = $category->products; // Asumiendo que hay una relación definida en el modelo Category
+        $products = $category->products;
 
         return response()->json($products);
     }
 
-    // Método para manejar la ruta GET /categoriesById/{id}
+    /**
+     * Get category by ID.
+     *
+     * @group Categories
+     *
+     * @urlParam id integer required The ID of the category. Example: 1
+     *
+     * @response 200 {
+     *     "id": 1,
+     *     "name": "Electronics",
+     *     "status": true,
+     *     "created_at": "2021-09-15T14:59:48.000000Z",
+     *     "updated_at": "2021-09-15T14:59:48.000000Z"
+     * }
+     * @response 404 {
+     *     "message": "Category not found."
+     * }
+     */
     public function getCategoriesById($id)
     {
-      
-
         $category = Category::find($id);
 
         if (!$category) {
@@ -71,6 +108,4 @@ class CategoryController extends Controller
 
         return response()->json($category);
     }
-
-   
 }

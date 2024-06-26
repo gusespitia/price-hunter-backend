@@ -1,0 +1,1355 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'https://price-hunter-backend.ddev.site'
+paths:
+  /api/categories:
+    get:
+      summary: 'List all categories.'
+      operationId: listAllCategories
+      description: ''
+      parameters:
+        -
+          in: query
+          name: name
+          description: 'Filter by category name.'
+          example: Electronics
+          required: false
+          schema:
+            type: string
+            description: 'Filter by category name.'
+            example: Electronics
+        -
+          in: query
+          name: id
+          description: 'Filter by category ID.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Filter by category ID.'
+            example: 1
+        -
+          in: query
+          name: status
+          description: 'Filter by category status.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Filter by category status.'
+            example: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: Electronics
+                  status: true
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Electronics
+                  status:
+                    type: boolean
+                    example: true
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+      tags:
+        - Categories
+      security: []
+  '/api/categories/{categoryName}':
+    get:
+      summary: 'Get products by category name.'
+      operationId: getProductsByCategoryName
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: Laptop
+                  category_id: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Laptop
+                  category_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Category not found.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Category not found.'
+      tags:
+        - Categories
+      security: []
+    parameters:
+      -
+        in: path
+        name: categoryName
+        description: 'The name of the category.'
+        example: Electronics
+        required: true
+        schema:
+          type: string
+  '/api/categoriesById/{id}':
+    get:
+      summary: 'Get category by ID.'
+      operationId: getCategoryByID
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: Electronics
+                  status: true
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Electronics
+                  status:
+                    type: boolean
+                    example: true
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Category not found.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Category not found.'
+      tags:
+        - Categories
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/customer-auth/login:
+    post:
+      summary: 'Login a customer.'
+      operationId: loginACustomer
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+                  token_type: bearer
+                  expires_in: 3600
+                properties:
+                  access_token:
+                    type: string
+                    example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+                  token_type:
+                    type: string
+                    example: bearer
+                  expires_in:
+                    type: integer
+                    example: 3600
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Invalid credentials'
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid credentials'
+      tags:
+        - 'Customer Auth'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the customer.'
+                  example: johndoe@example.com
+                password:
+                  type: string
+                  description: 'The password for the customer.'
+                  example: secret
+              required:
+                - email
+                - password
+      security: []
+  /api/customer-auth/register:
+    post:
+      summary: 'Register a new customer.'
+      operationId: registerANewCustomer
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+                  token_type: bearer
+                  expires_in: 3600
+                properties:
+                  access_token:
+                    type: string
+                    example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+                  token_type:
+                    type: string
+                    example: bearer
+                  expires_in:
+                    type: integer
+                    example: 3600
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Validation error'
+                  errors:
+                    email:
+                      - 'The email has already been taken.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation error'
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: array
+                        example:
+                          - 'The email has already been taken.'
+                        items:
+                          type: string
+      tags:
+        - 'Customer Auth'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the customer.'
+                  example: 'John Doe'
+                email:
+                  type: string
+                  description: 'The email of the customer.'
+                  example: johndoe@example.com
+                password:
+                  type: string
+                  description: 'The password for the customer.'
+                  example: secret
+                password_confirmation:
+                  type: string
+                  description: 'The confirmation for the password.'
+                  example: secret
+              required:
+                - name
+                - email
+                - password
+                - password_confirmation
+      security: []
+  /api/customer-auth/me:
+    post:
+      summary: 'Get the authenticated customer.'
+      operationId: getTheAuthenticatedCustomer
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: 'John Doe'
+                  email: johndoe@example.com
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: 'John Doe'
+                  email:
+                    type: string
+                    example: johndoe@example.com
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+      tags:
+        - 'Customer Auth'
+      security: []
+  /api/customer-auth/logout:
+    post:
+      summary: 'Logout the authenticated customer.'
+      operationId: logoutTheAuthenticatedCustomer
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Successfully logged out'
+                properties:
+                  message:
+                    type: string
+                    example: 'Successfully logged out'
+      tags:
+        - 'Customer Auth'
+      security: []
+  /api/customer-auth/refresh:
+    post:
+      summary: 'Refresh the authentication token.'
+      operationId: refreshTheAuthenticationToken
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+                  token_type: bearer
+                  expires_in: 3600
+                properties:
+                  access_token:
+                    type: string
+                    example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+                  token_type:
+                    type: string
+                    example: bearer
+                  expires_in:
+                    type: integer
+                    example: 3600
+      tags:
+        - 'Customer Auth'
+      security: []
+  /api/customer-auth/update-profile:
+    post:
+      summary: "Update the authenticated customer's profile."
+      operationId: updateTheAuthenticatedCustomersProfile
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: 'John Doe'
+                  email: johndoe@example.com
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: 'John Doe'
+                  email:
+                    type: string
+                    example: johndoe@example.com
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Validation error'
+                  errors:
+                    email:
+                      - 'The email has already been taken.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation error'
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: array
+                        example:
+                          - 'The email has already been taken.'
+                        items:
+                          type: string
+      tags:
+        - 'Customer Auth'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the customer.'
+                  example: 'John Doe'
+                password:
+                  type: string
+                  description: 'The password for the customer.'
+                  example: secret
+                password_confirmation:
+                  type: string
+                  description: 'The confirmation for the password.'
+                  example: secret
+      security: []
+  /api/customer-auth/delete-user:
+    delete:
+      summary: 'Delete the authenticated customer.'
+      operationId: deleteTheAuthenticatedCustomer
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Customer deleted successfully'
+                properties:
+                  message:
+                    type: string
+                    example: 'Customer deleted successfully'
+      tags:
+        - 'Customer Auth'
+      security: []
+  /api/lists:
+    post:
+      summary: 'Create a new list.'
+      operationId: createANewList
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  customer_id: 1
+                  product_id: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  customer_id:
+                    type: integer
+                    example: 1
+                  product_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Validation error'
+                  errors:
+                    products:
+                      - 'The selected product is invalid.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation error'
+                  errors:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        example:
+                          - 'The selected product is invalid.'
+                        items:
+                          type: string
+      tags:
+        - Lists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                products:
+                  type: array
+                  description: 'Array of product IDs.'
+                  example:
+                    - 1
+                    - 2
+                    - 3
+                  items:
+                    type: string
+              required:
+                - products
+    get:
+      summary: 'Get list of lists.'
+      operationId: getListOfLists
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  customer_id: 1
+                  product_id: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                  product:
+                    id: 1
+                    name: 'Product Name'
+                    category_id: 1
+                    created_at: '2021-09-15T14:59:48.000000Z'
+                    updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  customer_id:
+                    type: integer
+                    example: 1
+                  product_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  product:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Product Name'
+                      category_id:
+                        type: integer
+                        example: 1
+                      created_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+      tags:
+        - Lists
+  '/api/lists/{id}':
+    get:
+      summary: 'Get a list by ID.'
+      operationId: getAListByID
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  customer_id: 1
+                  product_id: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  customer_id:
+                    type: integer
+                    example: 1
+                  product_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'List not found'
+                properties:
+                  message:
+                    type: string
+                    example: 'List not found'
+      tags:
+        - Lists
+    put:
+      summary: 'Update a list by ID.'
+      operationId: updateAListByID
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  customer_id: 1
+                  product_id: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  customer_id:
+                    type: integer
+                    example: 1
+                  product_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'List not found'
+                properties:
+                  message:
+                    type: string
+                    example: 'List not found'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Validation error'
+                  errors:
+                    products:
+                      - 'The selected product is invalid.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Validation error'
+                  errors:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        example:
+                          - 'The selected product is invalid.'
+                        items:
+                          type: string
+      tags:
+        - Lists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                products:
+                  type: array
+                  description: 'Array of product IDs.'
+                  example:
+                    - 1
+                    - 2
+                    - 3
+                  items:
+                    type: string
+              required:
+                - products
+    delete:
+      summary: 'Delete a list by ID.'
+      operationId: deleteAListByID
+      description: ''
+      parameters: []
+      responses:
+        204:
+          description: ''
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'List not found'
+                properties:
+                  message:
+                    type: string
+                    example: 'List not found'
+      tags:
+        - Lists
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the list.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/prices:
+    get:
+      summary: 'Get list of prices.'
+      operationId: getListOfPrices
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  data: '2021-09-15'
+                  price: 9.99
+                  presentation: 500g
+                  id_product: 1
+                  id_store: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                  product:
+                    id: 1
+                    name: 'Product Name'
+                    category_id: 1
+                    created_at: '2021-09-15T14:59:48.000000Z'
+                    updated_at: '2021-09-15T14:59:48.000000Z'
+                  store:
+                    id: 1
+                    name: 'Store Name'
+                    url_base: 'https://store.com'
+                    logo: 'https://store.com/logo.png'
+                    status: true
+                    created_at: '2021-09-15T14:59:48.000000Z'
+                    updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  data:
+                    type: string
+                    example: '2021-09-15'
+                  price:
+                    type: number
+                    example: 9.99
+                  presentation:
+                    type: string
+                    example: 500g
+                  id_product:
+                    type: integer
+                    example: 1
+                  id_store:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  product:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Product Name'
+                      category_id:
+                        type: integer
+                        example: 1
+                      created_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+                  store:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Store Name'
+                      url_base:
+                        type: string
+                        example: 'https://store.com'
+                      logo:
+                        type: string
+                        example: 'https://store.com/logo.png'
+                      status:
+                        type: boolean
+                        example: true
+                      created_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'There are no prices for today.'
+                properties:
+                  message:
+                    type: string
+                    example: 'There are no prices for today.'
+      tags:
+        - Prices
+      security: []
+  '/api/prices/{storeName}':
+    get:
+      summary: 'Get prices by store name.'
+      operationId: getPricesByStoreName
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  data: '2021-09-15'
+                  price: 9.99
+                  presentation: 500g
+                  id_product: 1
+                  id_store: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                  product:
+                    id: 1
+                    name: 'Product Name'
+                    category_id: 1
+                    created_at: '2021-09-15T14:59:48.000000Z'
+                    updated_at: '2021-09-15T14:59:48.000000Z'
+                  store:
+                    id: 1
+                    name: 'Store Name'
+                    url_base: 'https://store.com'
+                    logo: 'https://store.com/logo.png'
+                    status: true
+                    created_at: '2021-09-15T14:59:48.000000Z'
+                    updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  data:
+                    type: string
+                    example: '2021-09-15'
+                  price:
+                    type: number
+                    example: 9.99
+                  presentation:
+                    type: string
+                    example: 500g
+                  id_product:
+                    type: integer
+                    example: 1
+                  id_store:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  product:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Product Name'
+                      category_id:
+                        type: integer
+                        example: 1
+                      created_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+                  store:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Store Name'
+                      url_base:
+                        type: string
+                        example: 'https://store.com'
+                      logo:
+                        type: string
+                        example: 'https://store.com/logo.png'
+                      status:
+                        type: boolean
+                        example: true
+                      created_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Store not found or no prices found.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Store not found or no prices found.'
+      tags:
+        - Prices
+      security: []
+    parameters:
+      -
+        in: path
+        name: storeName
+        description: 'The name of the store.'
+        example: Carrefour
+        required: true
+        schema:
+          type: string
+  /api/products:
+    get:
+      summary: 'Get list of products.'
+      operationId: getListOfProducts
+      description: ''
+      parameters:
+        -
+          in: query
+          name: name
+          description: 'Filter by product name.'
+          example: Laptop
+          required: false
+          schema:
+            type: string
+            description: 'Filter by product name.'
+            example: Laptop
+        -
+          in: query
+          name: category
+          description: 'Filter by category ID.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Filter by category ID.'
+            example: 1
+        -
+          in: query
+          name: status
+          description: 'Filter by product status.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Filter by product status.'
+            example: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: Laptop
+                  category_id: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Laptop
+                  category_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'There are no products.'
+                properties:
+                  message:
+                    type: string
+                    example: 'There are no products.'
+      tags:
+        - Products
+      security: []
+  '/api/products/{id}':
+    get:
+      summary: 'Get product by ID.'
+      operationId: getProductByID
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: Laptop
+                  category_id: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Laptop
+                  category_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Product not found.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Product not found.'
+      tags:
+        - Products
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the product.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/products/category/{id}':
+    get:
+      summary: 'Get products by category.'
+      operationId: getProductsByCategory
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: Laptop
+                  category_id: 1
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Laptop
+                  category_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Category not found or no products found.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Category not found or no products found.'
+      tags:
+        - Products
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the category.'
+        example: eveniet
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: category
+        description: 'The name of the category.'
+        example: Electronics
+        required: true
+        schema:
+          type: string
+  /api/stores:
+    get:
+      summary: 'Get list of stores.'
+      operationId: getListOfStores
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: 'Store Name'
+                  url_base: 'https://store.com'
+                  logo: 'https://store.com/logo.png'
+                  status: true
+                  created_at: '2021-09-15T14:59:48.000000Z'
+                  updated_at: '2021-09-15T14:59:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: 'Store Name'
+                  url_base:
+                    type: string
+                    example: 'https://store.com'
+                  logo:
+                    type: string
+                    example: 'https://store.com/logo.png'
+                  status:
+                    type: boolean
+                    example: true
+                  created_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2021-09-15T14:59:48.000000Z'
+      tags:
+        - Stores
+      security: []
+tags:
+  -
+    name: Categories
+    description: ''
+  -
+    name: 'Customer Auth'
+    description: ''
+  -
+    name: Lists
+    description: ''
+  -
+    name: Prices
+    description: ''
+  -
+    name: Products
+    description: ''
+  -
+    name: Stores
+    description: ''

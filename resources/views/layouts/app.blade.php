@@ -10,6 +10,8 @@
     <!-- Styles -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -37,6 +39,11 @@
                         <div class="text-base leading-6 text-gray-600 dark:text-gray-500">
                             © 2024 Price Hunter. All rights reserved.
                         </div>
+                    </div>
+                    <div class="py-2 px-5 justify-right">
+                        <a href="{{ url('/docs') }}" class="text-base leading-6 no-underline text-gray-00 dark:text-gray-600 hover:text-gray-900 dark:hover:text-black">
+                            <i class="fas fa-book"></i> API Documentation
+                        </a>
                     </div>
                 </div>
             </div>

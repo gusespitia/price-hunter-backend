@@ -1,0 +1,991 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "https:\/\/price-hunter-backend.ddev.site"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "17e53afc-721d-4108-b01a-68fe6efe8317",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Categories",
+            "description": "",
+            "item": [
+                {
+                    "name": "List all categories.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories",
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "Electronics",
+                                    "description": "Filter by category name.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "Filter by category ID.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "1",
+                                    "description": "Filter by category status.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/categories?name=Electronics&id=1&status=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"Electronics\",\n    \"status\": true,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get products by category name.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories\/:categoryName",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categories\/:categoryName",
+                            "variable": [
+                                {
+                                    "id": "categoryName",
+                                    "key": "categoryName",
+                                    "value": "Electronics",
+                                    "description": "The name of the category."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"Laptop\",\n    \"category_id\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"Category not found.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get category by ID.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categoriesById\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categoriesById\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the category."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"Electronics\",\n    \"status\": true,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"Category not found.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Customer Auth",
+            "description": "",
+            "item": [
+                {
+                    "name": "Login a customer.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/customer-auth\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/customer-auth\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"johndoe@example.com\",\"password\":\"secret\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n    \"token_type\": \"bearer\",\n    \"expires_in\": 3600\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n    \"message\": \"Invalid credentials\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Register a new customer.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/customer-auth\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/customer-auth\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"John Doe\",\"email\":\"johndoe@example.com\",\"password\":\"secret\",\"password_confirmation\":\"secret\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n    \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n    \"token_type\": \"bearer\",\n    \"expires_in\": 3600\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n    \"message\": \"Validation error\",\n    \"errors\": {\n        \"email\": [\"The email has already been taken.\"]\n    }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get the authenticated customer.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/customer-auth\/me",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/customer-auth\/me"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"johndoe@example.com\",\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Logout the authenticated customer.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/customer-auth\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/customer-auth\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"message\": \"Successfully logged out\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Refresh the authentication token.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/customer-auth\/refresh",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/customer-auth\/refresh"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n    \"token_type\": \"bearer\",\n    \"expires_in\": 3600\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the authenticated customer's profile.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/customer-auth\/update-profile",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/customer-auth\/update-profile"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"John Doe\",\"password\":\"secret\",\"password_confirmation\":\"secret\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"johndoe@example.com\",\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n    \"message\": \"Validation error\",\n    \"errors\": {\n        \"email\": [\"The email has already been taken.\"]\n    }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete the authenticated customer.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/customer-auth\/delete-user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/customer-auth\/delete-user"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"message\": \"Customer deleted successfully\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lists",
+            "description": "",
+            "item": [
+                {
+                    "name": "Create a new list.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lists",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lists"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"products\":[1,2,3]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n    \"id\": 1,\n    \"customer_id\": 1,\n    \"product_id\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n    \"message\": \"Validation error\",\n    \"errors\": {\n        \"products\": [\"The selected product is invalid.\"]\n    }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get list of lists.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lists",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lists"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"customer_id\": 1,\n    \"product_id\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"product\": {\n        \"id\": 1,\n        \"name\": \"Product Name\",\n        \"category_id\": 1,\n        \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n        \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n    }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a list by ID.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lists\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lists\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the list."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"customer_id\": 1,\n    \"product_id\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"List not found\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a list by ID.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lists\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lists\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the list."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"products\":[1,2,3]}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"customer_id\": 1,\n    \"product_id\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"List not found\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n    \"message\": \"Validation error\",\n    \"errors\": {\n        \"products\": [\"The selected product is invalid.\"]\n    }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a list by ID.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lists\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lists\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the list."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 204,
+                            "body": "{\n    \"message\": \"List deleted successfully\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"List not found\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Prices",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get list of prices.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/prices",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/prices"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"data\": \"2021-09-15\",\n    \"price\": 9.99,\n    \"presentation\": \"500g\",\n    \"id_product\": 1,\n    \"id_store\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"product\": {\n        \"id\": 1,\n        \"name\": \"Product Name\",\n        \"category_id\": 1,\n        \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n        \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n    },\n    \"store\": {\n        \"id\": 1,\n        \"name\": \"Store Name\",\n        \"url_base\": \"https:\/\/store.com\",\n        \"logo\": \"https:\/\/store.com\/logo.png\",\n        \"status\": true,\n        \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n        \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n    }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"There are no prices for today.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get prices by store name.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/prices\/:storeName",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/prices\/:storeName",
+                            "variable": [
+                                {
+                                    "id": "storeName",
+                                    "key": "storeName",
+                                    "value": "Carrefour",
+                                    "description": "The name of the store."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"data\": \"2021-09-15\",\n    \"price\": 9.99,\n    \"presentation\": \"500g\",\n    \"id_product\": 1,\n    \"id_store\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"product\": {\n        \"id\": 1,\n        \"name\": \"Product Name\",\n        \"category_id\": 1,\n        \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n        \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n    },\n    \"store\": {\n        \"id\": 1,\n        \"name\": \"Store Name\",\n        \"url_base\": \"https:\/\/store.com\",\n        \"logo\": \"https:\/\/store.com\/logo.png\",\n        \"status\": true,\n        \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n        \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n    }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"Store not found or no prices found.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Products",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get list of products.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/products",
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "Laptop",
+                                    "description": "Filter by product name.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "category",
+                                    "value": "1",
+                                    "description": "Filter by category ID.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "1",
+                                    "description": "Filter by product status.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/products?name=Laptop&category=1&status=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"Laptop\",\n    \"category_id\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"There are no products.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get product by ID.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/products\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/products\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the product."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"Laptop\",\n    \"category_id\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"Product not found.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get products by category.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/products\/category\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/products\/category\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "eveniet",
+                                    "description": "The ID of the category."
+                                },
+                                {
+                                    "id": "category",
+                                    "key": "category",
+                                    "value": "Electronics",
+                                    "description": "The name of the category."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"Laptop\",\n    \"category_id\": 1,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"Category not found or no products found.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Stores",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get list of stores.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/stores",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/stores"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"id\": 1,\n    \"name\": \"Store Name\",\n    \"url_base\": \"https:\/\/store.com\",\n    \"logo\": \"https:\/\/store.com\/logo.png\",\n    \"status\": true,\n    \"created_at\": \"2021-09-15T14:59:48.000000Z\",\n    \"updated_at\": \"2021-09-15T14:59:48.000000Z\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

@@ -10,6 +10,28 @@ use Illuminate\Validation\ValidationException;
 
 class CustomerAuthController extends Controller
 {
+    /**
+     * Register a new customer.
+     *
+     * @group Customer Auth
+     *
+     * @bodyParam name string required The name of the customer. Example: John Doe
+     * @bodyParam email string required The email of the customer. Example: johndoe@example.com
+     * @bodyParam password string required The password for the customer. Example: secret
+     * @bodyParam password_confirmation string required The confirmation for the password. Example: secret
+     *
+     * @response 201 {
+     *     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+     *     "token_type": "bearer",
+     *     "expires_in": 3600
+     * }
+     * @response 422 {
+     *     "message": "Validation error",
+     *     "errors": {
+     *         "email": ["The email has already been taken."]
+     *     }
+     * }
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -33,6 +55,23 @@ class CustomerAuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    /**
+     * Login a customer.
+     *
+     * @group Customer Auth
+     *
+     * @bodyParam email string required The email of the customer. Example: johndoe@example.com
+     * @bodyParam password string required The password for the customer. Example: secret
+     *
+     * @response 200 {
+     *     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+     *     "token_type": "bearer",
+     *     "expires_in": 3600
+     * }
+     * @response 401 {
+     *     "message": "Invalid credentials"
+     * }
+     */
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
@@ -46,11 +85,33 @@ class CustomerAuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    /**
+     * Get the authenticated customer.
+     *
+     * @group Customer Auth
+     *
+     * @response 200 {
+     *     "id": 1,
+     *     "name": "John Doe",
+     *     "email": "johndoe@example.com",
+     *     "created_at": "2021-09-15T14:59:48.000000Z",
+     *     "updated_at": "2021-09-15T14:59:48.000000Z"
+     * }
+     */
     public function me()
     {
         return response()->json(auth('customer-api')->user());
     }
 
+    /**
+     * Logout the authenticated customer.
+     *
+     * @group Customer Auth
+     *
+     * @response 200 {
+     *     "message": "Successfully logged out"
+     * }
+     */
     public function logout()
     {
         auth('customer-api')->logout();
@@ -58,11 +119,45 @@ class CustomerAuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+    /**
+     * Refresh the authentication token.
+     *
+     * @group Customer Auth
+     *
+     * @response 200 {
+     *     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+     *     "token_type": "bearer",
+     *     "expires_in": 3600
+     * }
+     */
     public function refresh()
     {
         return $this->respondWithToken(auth('customer-api')->refresh());
     }
 
+    /**
+     * Update the authenticated customer's profile.
+     *
+     * @group Customer Auth
+     *
+     * @bodyParam name string The name of the customer. Example: John Doe
+     * @bodyParam password string The password for the customer. Example: secret
+     * @bodyParam password_confirmation string The confirmation for the password. Example: secret
+     *
+     * @response 200 {
+     *     "id": 1,
+     *     "name": "John Doe",
+     *     "email": "johndoe@example.com",
+     *     "created_at": "2021-09-15T14:59:48.000000Z",
+     *     "updated_at": "2021-09-15T14:59:48.000000Z"
+     * }
+     * @response 422 {
+     *     "message": "Validation error",
+     *     "errors": {
+     *         "email": ["The email has already been taken."]
+     *     }
+     * }
+     */
     public function updateProfile(Request $request)
     {
         $customer = auth('customer-api')->user();
@@ -89,6 +184,15 @@ class CustomerAuthController extends Controller
         return response()->json($customer);
     }
 
+    /**
+     * Delete the authenticated customer.
+     *
+     * @group Customer Auth
+     *
+     * @response 200 {
+     *     "message": "Customer deleted successfully"
+     * }
+     */
     public function deleteUser()
     {
         $customer = auth('customer-api')->user();

@@ -10,7 +10,42 @@ use Carbon\Carbon;
 
 class PriceController extends Controller
 {
-     public function indexApi()
+    /**
+     * Get list of prices.
+     *
+     * @group Prices
+     *
+     * @response 200 {
+     *     "id": 1,
+     *     "data": "2021-09-15",
+     *     "price": 9.99,
+     *     "presentation": "500g",
+     *     "id_product": 1,
+     *     "id_store": 1,
+     *     "created_at": "2021-09-15T14:59:48.000000Z",
+     *     "updated_at": "2021-09-15T14:59:48.000000Z",
+     *     "product": {
+     *         "id": 1,
+     *         "name": "Product Name",
+     *         "category_id": 1,
+     *         "created_at": "2021-09-15T14:59:48.000000Z",
+     *         "updated_at": "2021-09-15T14:59:48.000000Z"
+     *     },
+     *     "store": {
+     *         "id": 1,
+     *         "name": "Store Name",
+     *         "url_base": "https://store.com",
+     *         "logo": "https://store.com/logo.png",
+     *         "status": true,
+     *         "created_at": "2021-09-15T14:59:48.000000Z",
+     *         "updated_at": "2021-09-15T14:59:48.000000Z"
+     *     }
+     * }
+     * @response 404 {
+     *     "message": "There are no prices for today."
+     * }
+     */
+    public function indexApi()
     {
         $prices = Price::with(['product', 'store'])
             ->where('status', 1)
@@ -23,6 +58,43 @@ class PriceController extends Controller
         return response()->json($prices);
     }
 
+    /**
+     * Get prices by store name.
+     *
+     * @group Prices
+     *
+     * @urlParam storeName string required The name of the store. Example: Carrefour
+     *
+     * @response 200 {
+     *     "id": 1,
+     *     "data": "2021-09-15",
+     *     "price": 9.99,
+     *     "presentation": "500g",
+     *     "id_product": 1,
+     *     "id_store": 1,
+     *     "created_at": "2021-09-15T14:59:48.000000Z",
+     *     "updated_at": "2021-09-15T14:59:48.000000Z",
+     *     "product": {
+     *         "id": 1,
+     *         "name": "Product Name",
+     *         "category_id": 1,
+     *         "created_at": "2021-09-15T14:59:48.000000Z",
+     *         "updated_at": "2021-09-15T14:59:48.000000Z"
+     *     },
+     *     "store": {
+     *         "id": 1,
+     *         "name": "Store Name",
+     *         "url_base": "https://store.com",
+     *         "logo": "https://store.com/logo.png",
+     *         "status": true,
+     *         "created_at": "2021-09-15T14:59:48.000000Z",
+     *         "updated_at": "2021-09-15T14:59:48.000000Z"
+     *     }
+     * }
+     * @response 404 {
+     *     "message": "Store not found or no prices found."
+     * }
+     */
     public function getPricesByStore(Request $request, $storeName)
     {
         $validStores = [
