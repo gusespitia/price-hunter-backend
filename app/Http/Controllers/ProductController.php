@@ -14,7 +14,6 @@ class ProductController extends Controller
     {
         $query = Product::with('category');
     
-        // Aplicar filtros si existen
         if ($request->filled('name')) {
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
@@ -25,11 +24,11 @@ class ProductController extends Controller
             $query->where('status', $request->input('status'));
         }
     
-        // Aplicar ordenación si existen los parámetros
+      
         if ($request->filled('sort') && $request->filled('column')) {
             $column = $request->input('column');
     
-            // Ajustar el nombre de columna si es 'category_id'
+        
             if ($column === 'category_id') {
                 $column = 'id_category';
             }
@@ -39,7 +38,7 @@ class ProductController extends Controller
     
        $products = $query->orderBy('id', 'asc')->paginate(20);
 
-        $categories = Category::all(); // Obtener todas las categorías
+        $categories = Category::all(); 
     
         return view('product.index', compact('products', 'categories'));
     }
@@ -92,14 +91,7 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-    public function showApi($id)
-    {
-        $product = Product::with('category')->find($id);
-        if (!$product) {
-            return response()->json(['message' => 'Product not found.'], 404);
-        }
-        return response()->json($product);
-    }
+   
 
     public function create()
     {

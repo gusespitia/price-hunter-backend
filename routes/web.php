@@ -7,10 +7,22 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ScrapingProductController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
+
+
+Route::resource('contacts', ContactController::class)->names([
+    'index' => 'contacts.index',
+    'create' => 'contacts.create',
+    'store' => 'contacts.store',
+    'show' => 'contacts.show',
+    'edit' => 'contacts.edit',
+    'update' => 'contacts.update',
+    'destroy' => 'contacts.destroy',
+]);
 
 // Rutas para ProductController
 Route::resource('products', ProductController::class)->names([
