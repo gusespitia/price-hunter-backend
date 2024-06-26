@@ -32,7 +32,7 @@
                             <input type="text" class="form-control" placeholder="Product Name..." name="name"
                                 value="{{ request('name') }}">
                         </div>
-                        <div class="col-md-2 col-sm-6 mb-2">
+                        <div class="col-md-2 col-sm-4 mb-2">
                             <select class="form-select" name="category">
                                 <option value="">Select Categ..</option>
                                 <!-- Populate with category options -->
@@ -51,11 +51,13 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="col-md-2 col-sm-2 mb-2">
-                            <button type="submit" class="btn btn-primary mr-2"><x-icons.search-circle /></button>
-                            <a href="{{ route('product.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
+                        <div class="col-md-2 col-sm-6 mb-2">
+                            <div class="d-flex">
+                                <button type="submit" class="btn btn-primary mr-2"><x-icons.search-circle /></button>
+                                <a href="{{ route('product.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
+                            </div>
                         </div>
-                        <div class="col-md-4 col-sm-12 d-flex justify-content-end mb-2">
+                        <div class="col-md-1 col-sm-12  d-flex justify-content-end mb-2">
                             <a href="{{ route('product.create') }}" class="btn btn-primary">
                                 <x-icons.plus-circle />
                             </a>

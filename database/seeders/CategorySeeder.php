@@ -9,15 +9,19 @@ class CategorySeeder extends Seeder
 {
     public function run()
     {
-        $categories = [
-            'Beverages',
-            'Dairy',
-            'Bakery',
-            'Meat & Fish',
-            'Fruits & Vegetables',
-            'Pantry',
-            'Frozen Foods',
-            'Household Items'
+        $categories = [           
+           'Toiletries',
+           'Pets',
+           'Snacks',
+           'Dairy',
+           'Cereals',
+           'Baby',
+           'Coffee, tea',
+           'Baking',
+           'Sauces',
+           'Pasta'  
+        
+        
         ];
 
         foreach ($categories as $category) {

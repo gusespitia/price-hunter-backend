@@ -23,25 +23,28 @@
                 </div>
             @endif
 
-            <!-- Filter options -->
-            <div class="relative mb-3">
-                <form method="GET" action="{{ route('category.index') }}">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 mb-2">
-                            <input type="text" class="form-control" placeholder="Category Name" name="category_name">
-                        </div>
-                        <div class="col-md-2 col-sm-2 mb-2">
-                            <button type="submit" class="btn btn-primary mr-2"><x-icons.search-circle /></button>
-                            <a href="{{ route('category.index') }}" class="btn btn-warning"><x-icons.refresh /> </a>
-                        </div>                       
-                        <div class="col-md-7 col-sm-12 d-flex justify-content-end mb-2">
-                            <a href="{{ route('category.create') }}" class="btn btn-primary">
-                                <x-icons.plus-circle />
-                            </a>
-                        </div>   
-                    </div>                
-                </form>
+         <!-- Filter options -->
+<div class="relative mb-3">
+    <form method="GET" action="{{ route('category.index') }}">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 mb-2">
+                <input type="text" class="form-control" placeholder="Category Name" name="category_name">
             </div>
+            <div class="col-md-1 col-sm-6 mb-2">
+                <button type="submit" class="btn btn-primary w-100 mb-2 mb-sm-0"><x-icons.search-circle /></button>
+            </div>
+            <div class="col-md-1 col-sm-6 mb-2">
+                <a href="{{ route('category.index') }}" class="btn btn-warning w-100 mb-2 mb-sm-0"><x-icons.refresh /></a>
+            </div>
+            <div class="col-md-1 col col-sm-12 d-flex justify-content-end mb-2">
+                <a href="{{ route('category.create') }}" class="btn btn-primary w-100 w-md-auto">
+                    <x-icons.plus-circle />
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
 
             @if($categories->isEmpty())
                 <div class="alert alert-warning" role="alert">

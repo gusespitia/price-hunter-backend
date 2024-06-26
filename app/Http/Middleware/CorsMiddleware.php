@@ -11,14 +11,24 @@ class CorsMiddleware
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request)
-            ->header('Access-Control-Allow-Origin', '*') // O especifica el dominio permitido en lugar de '*'
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        $response = $next($request);
+
+        $response->headers->set('Access-Control-Allow-Origin', 'https://pricehunter.surge.sh');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        if ($request->getMethod() === "OPTIONS") {
+            $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            return $response;
+        }
+
+        return $response;
     }
 }

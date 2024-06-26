@@ -28,7 +28,7 @@
                         <h3 class="text-lg font-bold">Total Users</h3>
                         <p class="text-2xl">{{ $usersCount }}</p>
                     </div>
-                    <div class="bg-red-600 text-white p-4 rounded-lg shadow-lg  lg:row-start-3 lg:col-span-2 lg:col-start-2">
+                    <div class="bg-red-600 text-white p-4 rounded-lg shadow-lg  lg:row-start-3  lg:col-start-2">
                         <h3 class="text-lg font-bold">Total Scraping Products</h3>
                         <p class="text-2xl">{{ $scrapingProductCount }}</p>
                     </div>
