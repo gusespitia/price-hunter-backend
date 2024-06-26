@@ -71,19 +71,32 @@ class CustomerAuthController extends Controller
      * @response 401 {
      *     "message": "Invalid credentials"
      * }
+     * @response 404 {
+     *     "message": "Email not registered"
+     * }
      */
     public function login(Request $request)
     {
         $credentials = $request->only(['email', 'password']);
-
-        if (!$token = auth('customer-api')->attempt($credentials)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+    
+        $customer = Customer::where('email', $request->email)->first();
+        if (!$customer) {
+            return response()->json(['message' => 'User not found, Please create an account!.'], 404);
         }
-
+    
+        if (!Hash::check($request->password, $customer->password)) {
+            return response()->json(['message' => 'Incorrect password, Please try again!.'], 401);
+        }
+    
+        if (!$token = auth('customer-api')->attempt($credentials)) {
+            return response()->json(['message' => 'Invalid credentials, Please try again!.'], 401);
+        }
+    
         return $this->respondWithToken($token);
     }
+    
+    
+    
 
     /**
      * Get the authenticated customer.

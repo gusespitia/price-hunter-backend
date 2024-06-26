@@ -193,6 +193,99 @@ paths:
         required: true
         schema:
           type: integer
+  /api/contact:
+    post:
+      summary: 'Store a new contact message.'
+      operationId: storeANewContactMessage
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Your message has been sent successfully!, we will get back to you shortly'
+                properties:
+                  message:
+                    type: string
+                    example: 'Your message has been sent successfully!, we will get back to you shortly'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    name:
+                      - 'The name field is required.'
+                    email:
+                      - 'The email field is required.'
+                    message:
+                      - 'The message field is required.'
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      name:
+                        type: array
+                        example:
+                          - 'The name field is required.'
+                        items:
+                          type: string
+                      email:
+                        type: array
+                        example:
+                          - 'The email field is required.'
+                        items:
+                          type: string
+                      message:
+                        type: array
+                        example:
+                          - 'The message field is required.'
+                        items:
+                          type: string
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'There was an error sending your message. Please try again later.'
+                properties:
+                  message:
+                    type: string
+                    example: 'There was an error sending your message. Please try again later.'
+      tags:
+        - 'Contact Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the person sending the message.'
+                  example: 'John Doe'
+                email:
+                  type: string
+                  description: 'The email address of the person sending the message.'
+                  example: johndoe@example.com
+                message:
+                  type: string
+                  description: 'The message content.'
+                  example: 'Hello, I would like to know more about your services.'
+              required:
+                - name
+                - email
+                - message
+      security: []
   /api/customer-auth/login:
     post:
       summary: 'Login a customer.'
@@ -232,6 +325,18 @@ paths:
                   message:
                     type: string
                     example: 'Invalid credentials'
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Email not registered'
+                properties:
+                  message:
+                    type: string
+                    example: 'Email not registered'
       tags:
         - 'Customer Auth'
       requestBody:
@@ -1276,7 +1381,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the category.'
-        example: eveniet
+        example: quo
         required: true
         schema:
           type: string
@@ -1338,6 +1443,9 @@ tags:
   -
     name: Categories
     description: ''
+  -
+    name: 'Contact Management'
+    description: "\nAPI endpoints for managing contact messages."
   -
     name: 'Customer Auth'
     description: ''

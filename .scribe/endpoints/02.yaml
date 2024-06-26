@@ -1,16 +1,16 @@
-name: Prices
+name: Products
 description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: api/prices
+    uri: api/products
     metadata:
-      groupName: Prices
+      groupName: Products
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get list of prices.'
+      title: 'Get list of products.'
       description: ''
       authenticated: false
       custom: []
@@ -19,8 +19,38 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
+    queryParameters:
+      name:
+        name: name
+        description: 'Filter by product name.'
+        required: false
+        example: Laptop
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      category:
+        name: category
+        description: 'Filter by category ID.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      status:
+        name: status
+        description: 'Filter by product status.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      name: Laptop
+      category: 1
+      status: true
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -30,29 +60,10 @@ endpoints:
         content: |-
           {
               "id": 1,
-              "data": "2021-09-15",
-              "price": 9.99,
-              "presentation": "500g",
-              "id_product": 1,
-              "id_store": 1,
+              "name": "Laptop",
+              "category_id": 1,
               "created_at": "2021-09-15T14:59:48.000000Z",
-              "updated_at": "2021-09-15T14:59:48.000000Z",
-              "product": {
-                  "id": 1,
-                  "name": "Product Name",
-                  "category_id": 1,
-                  "created_at": "2021-09-15T14:59:48.000000Z",
-                  "updated_at": "2021-09-15T14:59:48.000000Z"
-              },
-              "store": {
-                  "id": 1,
-                  "name": "Store Name",
-                  "url_base": "https://store.com",
-                  "logo": "https://store.com/logo.png",
-                  "status": true,
-                  "created_at": "2021-09-15T14:59:48.000000Z",
-                  "updated_at": "2021-09-15T14:59:48.000000Z"
-              }
+              "updated_at": "2021-09-15T14:59:48.000000Z"
           }
         headers: []
         description: ''
@@ -61,7 +72,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "There are no prices for today."
+              "message": "There are no products."
           }
         headers: []
         description: ''
@@ -75,13 +86,13 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: 'api/prices/{storeName}'
+    uri: 'api/products/{id}'
     metadata:
-      groupName: Prices
+      groupName: Products
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get prices by store name.'
+      title: 'Get product by ID.'
       description: ''
       authenticated: false
       custom: []
@@ -89,17 +100,17 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      storeName:
-        name: storeName
-        description: 'The name of the store.'
+      id:
+        name: id
+        description: 'The ID of the product.'
         required: true
-        example: Carrefour
-        type: string
+        example: 1
+        type: integer
         enumValues: []
         exampleWasSpecified: true
         custom: []
     cleanUrlParameters:
-      storeName: Carrefour
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -111,29 +122,10 @@ endpoints:
         content: |-
           {
               "id": 1,
-              "data": "2021-09-15",
-              "price": 9.99,
-              "presentation": "500g",
-              "id_product": 1,
-              "id_store": 1,
+              "name": "Laptop",
+              "category_id": 1,
               "created_at": "2021-09-15T14:59:48.000000Z",
-              "updated_at": "2021-09-15T14:59:48.000000Z",
-              "product": {
-                  "id": 1,
-                  "name": "Product Name",
-                  "category_id": 1,
-                  "created_at": "2021-09-15T14:59:48.000000Z",
-                  "updated_at": "2021-09-15T14:59:48.000000Z"
-              },
-              "store": {
-                  "id": 1,
-                  "name": "Store Name",
-                  "url_base": "https://store.com",
-                  "logo": "https://store.com/logo.png",
-                  "status": true,
-                  "created_at": "2021-09-15T14:59:48.000000Z",
-                  "updated_at": "2021-09-15T14:59:48.000000Z"
-              }
+              "updated_at": "2021-09-15T14:59:48.000000Z"
           }
         headers: []
         description: ''
@@ -142,7 +134,79 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "Store not found or no prices found."
+              "message": "Product not found."
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/products/category/{id}'
+    metadata:
+      groupName: Products
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get products by category.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the category.'
+        required: true
+        example: quo
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      category:
+        name: category
+        description: 'The name of the category.'
+        required: true
+        example: Electronics
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanUrlParameters:
+      id: quo
+      category: Electronics
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+              "id": 1,
+              "name": "Laptop",
+              "category_id": 1,
+              "created_at": "2021-09-15T14:59:48.000000Z",
+              "updated_at": "2021-09-15T14:59:48.000000Z"
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: |-
+          {
+              "message": "Category not found or no products found."
           }
         headers: []
         description: ''

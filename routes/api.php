@@ -7,7 +7,9 @@ use App\Http\Controllers\api\v1\CategoryController;
 use App\Http\Controllers\api\v1\ProductController;
 use App\Http\Controllers\api\v1\StoreController;
 use App\Http\Controllers\api\v1\ListController;
+use App\Http\Controllers\api\v1\ContactController;
 
+Route::post('/contact', [ContactController::class, 'store']);
 
 // Rutas para la autenticación de clientes
 Route::group(['prefix' => 'customer-auth'], function () {
@@ -36,8 +38,6 @@ Route::get('/categoriesById/{id}', [CategoryController::class, 'getCategoriesByI
 
 // Rutas para tiendas
 Route::get('/stores', [StoreController::class, 'indexApi']);
-
-
 
 Route::middleware('auth:customer-api')->group(function () {
     Route::post('/lists', [ListController::class, 'store']);

@@ -1,16 +1,16 @@
-name: Products
+name: 'Customer Auth'
 description: ''
 endpoints:
   -
     httpMethods:
-      - GET
-    uri: api/products
+      - POST
+    uri: api/customer-auth/login
     metadata:
-      groupName: Products
+      groupName: 'Customer Auth'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get list of products.'
+      title: 'Login a customer.'
       description: ''
       authenticated: false
       custom: []
@@ -19,60 +19,150 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters:
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: 'The email of the customer.'
+        required: true
+        example: johndoe@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password:
+        name: password
+        description: 'The password for the customer.'
+        required: true
+        example: secret
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      email: johndoe@example.com
+      password: secret
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+              "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+              "token_type": "bearer",
+              "expires_in": 3600
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: |-
+          {
+              "message": "Invalid credentials"
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: |-
+          {
+              "message": "Email not registered"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/customer-auth/register
+    metadata:
+      groupName: 'Customer Auth'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Register a new customer.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
       name:
         name: name
-        description: 'Filter by product name.'
-        required: false
-        example: Laptop
+        description: 'The name of the customer.'
+        required: true
+        example: 'John Doe'
         type: string
         enumValues: []
         exampleWasSpecified: true
         custom: []
-      category:
-        name: category
-        description: 'Filter by category ID.'
-        required: false
-        example: 1
-        type: integer
+      email:
+        name: email
+        description: 'The email of the customer.'
+        required: true
+        example: johndoe@example.com
+        type: string
         enumValues: []
         exampleWasSpecified: true
         custom: []
-      status:
-        name: status
-        description: 'Filter by product status.'
-        required: false
-        example: true
-        type: boolean
+      password:
+        name: password
+        description: 'The password for the customer.'
+        required: true
+        example: secret
+        type: string
         enumValues: []
         exampleWasSpecified: true
         custom: []
-    cleanQueryParameters:
-      name: Laptop
-      category: 1
-      status: true
-    bodyParameters: []
-    cleanBodyParameters: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'The confirmation for the password.'
+        required: true
+        example: secret
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      name: 'John Doe'
+      email: johndoe@example.com
+      password: secret
+      password_confirmation: secret
     fileParameters: []
     responses:
       -
-        status: 200
+        status: 201
         content: |-
           {
-              "id": 1,
-              "name": "Laptop",
-              "category_id": 1,
-              "created_at": "2021-09-15T14:59:48.000000Z",
-              "updated_at": "2021-09-15T14:59:48.000000Z"
+              "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+              "token_type": "bearer",
+              "expires_in": 3600
           }
         headers: []
         description: ''
         custom: []
       -
-        status: 404
+        status: 422
         content: |-
           {
-              "message": "There are no products."
+              "message": "Validation error",
+              "errors": {
+                  "email": ["The email has already been taken."]
+              }
           }
         headers: []
         description: ''
@@ -85,32 +175,22 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - GET
-    uri: 'api/products/{id}'
+      - POST
+    uri: api/customer-auth/me
     metadata:
-      groupName: Products
+      groupName: 'Customer Auth'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get product by ID.'
+      title: 'Get the authenticated customer.'
       description: ''
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the product.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        custom: []
-    cleanUrlParameters:
-      id: 1
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -122,19 +202,10 @@ endpoints:
         content: |-
           {
               "id": 1,
-              "name": "Laptop",
-              "category_id": 1,
+              "name": "John Doe",
+              "email": "johndoe@example.com",
               "created_at": "2021-09-15T14:59:48.000000Z",
               "updated_at": "2021-09-15T14:59:48.000000Z"
-          }
-        headers: []
-        description: ''
-        custom: []
-      -
-        status: 404
-        content: |-
-          {
-              "message": "Product not found."
           }
         headers: []
         description: ''
@@ -147,42 +218,22 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - GET
-    uri: 'api/products/category/{id}'
+      - POST
+    uri: api/customer-auth/logout
     metadata:
-      groupName: Products
+      groupName: 'Customer Auth'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get products by category.'
+      title: 'Logout the authenticated customer.'
       description: ''
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the category.'
-        required: true
-        example: eveniet
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      category:
-        name: category
-        description: 'The name of the category.'
-        required: true
-        example: Electronics
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        custom: []
-    cleanUrlParameters:
-      id: eveniet
-      category: Electronics
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -193,9 +244,119 @@ endpoints:
         status: 200
         content: |-
           {
+              "message": "Successfully logged out"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/customer-auth/refresh
+    metadata:
+      groupName: 'Customer Auth'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Refresh the authentication token.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+              "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+              "token_type": "bearer",
+              "expires_in": 3600
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/customer-auth/update-profile
+    metadata:
+      groupName: 'Customer Auth'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Update the authenticated customer's profile."
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'The name of the customer.'
+        required: false
+        example: 'John Doe'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password:
+        name: password
+        description: 'The password for the customer.'
+        required: false
+        example: secret
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'The confirmation for the password.'
+        required: false
+        example: secret
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      name: 'John Doe'
+      password: secret
+      password_confirmation: secret
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
               "id": 1,
-              "name": "Laptop",
-              "category_id": 1,
+              "name": "John Doe",
+              "email": "johndoe@example.com",
               "created_at": "2021-09-15T14:59:48.000000Z",
               "updated_at": "2021-09-15T14:59:48.000000Z"
           }
@@ -203,10 +364,52 @@ endpoints:
         description: ''
         custom: []
       -
-        status: 404
+        status: 422
         content: |-
           {
-              "message": "Category not found or no products found."
+              "message": "Validation error",
+              "errors": {
+                  "email": ["The email has already been taken."]
+              }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: api/customer-auth/delete-user
+    metadata:
+      groupName: 'Customer Auth'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Delete the authenticated customer.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+              "message": "Customer deleted successfully"
           }
         headers: []
         description: ''
