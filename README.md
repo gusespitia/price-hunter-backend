@@ -1,6 +1,6 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://laravel.com](https://pricehunter.s13.syntradeveloper.be" target="_blank"><img src="https://pricehunter.surge.sh/pricehunter_logo.png" width="400" alt="Price Hunter Logo"></a></p>
 
-Claro, aquí tienes un archivo `README.md` para tu proyecto Laravel en inglés, incluyendo la información sobre los seeders.
+
 
 ```markdown
 # Laravel CRUD API with React Integration
