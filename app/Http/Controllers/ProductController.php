@@ -2,73 +2,162 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
-use Illuminate\Support\Facades\Response;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource for web interface.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('product.index', compact('products'));
-    }
+        $query = Product::with('category');
+    
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('category')) {
+            $query->where('id_category', $request->input('category'));
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+    
+      
+        if ($request->filled('sort') && $request->filled('column')) {
+            $column = $request->input('column');
+    
+        
+            if ($column === 'category_id') {
+                $column = 'id_category';
+            }
+    
+            $query->orderBy($column, $request->input('sort'));
+        }
+    
+       $products = $query->orderBy('id', 'asc')->paginate(20);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('product.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $product = new Product;
-        $product->product_name = $request->input('product_name');
-        $product->product_picture = $request->input('product_picture');
-        $product->product_weight = $request->input('product_weight');
-        $product->save();
-        return redirect()->back();
+        $categories = Category::all(); 
+    
+        return view('product.index', compact('products', 'categories'));
     }
     
-    /**
-     * Update the specified resource in storage.
-     */
+    public function indexApi(Request $request)
+    {
+        $query = Product::with('category');
+
+        // Aplicar filtros si existen
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        if ($request->filled('category')) {
+            $query->where('id_category', $request->input('category'));
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        $products = $query->get();
+
+        // Verificar si hay productos
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'There are no products.'], 404);
+        }
+
+        return response()->json($products);
+    }
+
+    // Método API para obtener productos por categoría
+    public function getProductsByCategory(Request $request, $category)
+    {
+        // Formatear el nombre de la categoría
+        $categoryNameFormatted = strtolower(str_replace(' ', '', $category));
+
+        // Buscar la categoría en la base de datos
+        $category = Category::where('name', 'LIKE', "%$categoryNameFormatted%")->first();
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not found.'], 404);
+        }
+
+        // Obtener productos de la categoría encontrada
+        $products = Product::with('category')->where('id_category', $category->id)->get();
+
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'There are no products in this category.'], 404);
+        }
+
+        return response()->json($products);
+    }
+
+   
+
+    public function create()
+    {
+        $categories = Category::all();
+        return view('product.create', compact('categories'));
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|min:3',
+            'picture' => 'required|string|url|min:3',
+            'status' => 'boolean',
+            'weight' => 'required|string|max:45|min:1',
+            'presentation' => 'required|string|max:255|min:1',
+            'id_category' => 'required|exists:categories,id',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        $product = new Product;
+        $product->name = $request->input('name');
+        $product->picture = $request->input('picture');
+        $product->status = $request->input('status', true);
+        $product->weight = $request->input('weight');
+        $product->presentation = $request->input('presentation');
+        $product->id_category = $request->input('id_category');
+        $product->save();
+    
+        return redirect()->route('product.index')->with('success', 'Product created successfully.');
+    }
+    
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
+            'picture' => 'sometimes|required|string',
+            'status' => 'boolean',
+            'weight' => 'sometimes|required|string|max:45',
+            'presentation' => 'sometimes|required|string|max:255',
+            'id_category' => 'sometimes|required|exists:categories,id',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
         $product = Product::find($id);
-        $product->product_name = $request->input('product_name');
-        $product->product_picture = $request->input('product_picture');
-        $product->product_weight = $request->input('product_weight');
-        $product->save();
-        return redirect()->back();
+        $product->name = $request->input('name');
+        $product->picture = $request->input('picture');
+        $product->status = $request->input('status', true);
+        $product->weight = $request->input('weight');
+        $product->presentation = $request->input('presentation');
+        $product->id_category = $request->input('id_category');
+        $product->update();
+    
+        return redirect()->route('product.index')->with('success', 'Product updated successfully.');
     }
-
-    /**
-     * Display a listing of the resource for API.
-     */
-    public function indexApi()
-    {
-        $products = Product::all();
-        return Response::json($products);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy($id)
     {
-        // CAMBIAR STATUS EN VEZ DE ELIMINAR
         $product = Product::find($id);
         $product->delete();
-        return redirect()->back();
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
     }
+    
 }

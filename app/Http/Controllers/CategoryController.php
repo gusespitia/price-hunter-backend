@@ -2,58 +2,84 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
-{
-    public function index()
+{ 
+        public function index(Request $request)
     {
-        $categories = Category::all();
+        $columnName = $request->input('column_name');
+        $sort = $request->input('sort', 'asc'); 
+        $categoryName = $request->input('category_name');
+    
+        $query = Category::query();
+        if ($columnName) {
+            $query->orderBy($columnName, $sort);
+        }
+        
+        if ($categoryName) {
+            $query->where('name', 'like', '%' . $categoryName . '%');
+        }
+    
+        $categories = $query->paginate(10);
+     
         return view('category.index', compact('categories'));
     }
+
     public function create()
     {
-        return view('product.create');
+        return view('category.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //METODO PARA GUARDAR
-        $category = new Category;
-        // PARA CORREGIR    $products->id = $request->input('id_product');
-        $category->category_name = $request->input('category_name');
-        $category->save();
-        return redirect()->back();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|min:3',
+            'status' => 'boolean',
+        ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $category = new Category;
+        $category->name = $request->input('name');
+        $category->status = $request->input('status', true);
+        $category->save();
+
+        return redirect()->route('category.index')->with('success', 'Category created successfully.');
     }
 
-  
     public function update(Request $request, $id)
     {
-        //
-        //METODO PARA EDITAR
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
+            'status' => 'boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $category = Category::find($id);
-        // PARA CORREGIR     $products->id = $request->input('id_product');
-        $category->product_name = $request->input('product_name');
-        $category->product_picture = $request->input('product_picture');
-        $category->product_weight = $request->input('product_weight');
-        // PARA CORREGIR    $products->product_picture = $request->input('id_product_category');
+        $category->name = $request->input('name');
+        $category->status = $request->input('status');
         $category->update();
-        return redirect()->back();
+
+        return redirect()->route('category.index')->with('success', 'Category updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        // CAMBIAR STAUTRS EN VEZ DE ELIMINAR
         $category = Category::find($id);
         $category->delete();
-        return redirect()->back();
+        return redirect()->route('category.index')->with('success', 'Category deleted successfully.');
     }
+
+   
+ 
+   
 }

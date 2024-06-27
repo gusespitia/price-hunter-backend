@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Store extends Model
 {
     use HasFactory;
-    protected $table = 'stores';
-    protected $primaryKey = 'id';
+
     protected $fillable = [
-        'store_name',
-        'store_url',
-        'store_logo',
-        'store_status'
+        'name',
+        'url_base',
+        'logo',
+        'status',
     ];
 
-    protected $guarded = [];
-    public $timestamps = false;
+    public function scrapingProducts()
+    {
+        return $this->hasMany(ScrapingProduct::class, 'id_store');
+    }
 }

@@ -1,5 +1,9 @@
 name: price-hunter-backend
 type: laravel
+upload_dirs:
+  - public/uploads
+  - storage/app/public
+
 docroot: public
 php_version: "8.2"
 webserver_type: nginx-fpm
@@ -14,6 +18,11 @@ composer_version: "2"
 web_environment: []
 corepack_enable: false
 default_container_timeout: "240"
+web_extra_exposed_ports:
+  - name: vite
+    container_port: 5174
+    http_port: 5172
+    https_port: 5174
 
 # Key features of DDEV's config.yaml:
 
@@ -225,12 +234,12 @@ default_container_timeout: "240"
 # The default time that DDEV waits for all containers to become ready can be increased from
 # the default 120. This helps in importing huge databases, for example.
 
-#web_extra_exposed_ports:
-#- name: nodejs
+# web_extra_exposed_ports:
+# - name: nodejs
 #  container_port: 3000
 #  http_port: 2999
 #  https_port: 3000
-#- name: something
+# - name: something
 #  container_port: 4000
 #  https_port: 4000
 #  http_port: 3999

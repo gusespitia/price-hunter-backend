@@ -6,27 +6,33 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <img src="{{ asset('images/pricehunter_logo.png') }}" alt="Dashboard Price Hunter" class="w-12 h-auto">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 md:space-x-8 sm:space-x-6 lg:space-x-10 sm:-my-px sm:ms-4 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('product.index') }}" :active="request()->routeIs('product.index')">
                         {{ __('Products') }}
                     </x-nav-link>
-
                     <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.index')">
                         {{ __('Categories') }}
                     </x-nav-link>
-
                     <x-nav-link href="{{ route('store.index') }}" :active="request()->routeIs('store.index')">
                         {{ __('Stores') }}
                     </x-nav-link>
-
+                    <x-nav-link href="{{ route('scraping_product.index') }}" :active="request()->routeIs('scraping_product.index')">
+                        {{ __('Scraping') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('price.index') }}" :active="request()->routeIs('price.index')">
+                        {{ __('Prices') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.index')">
+                        {{ __('Emails') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -37,9 +43,8 @@
                         <x-dropdown align="right" width="60">
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-800 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-500 dark:active:bg-gray-700 transition ease-in-out duration-150">
                                         {{ Auth::user()->currentTeam->name }}
-
                                         <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                                         </svg>
@@ -93,9 +98,8 @@
                                 </button>
                             @else
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-800 dark:text-gray-800 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-800 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-800 dark:active:bg-gray-700 transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
-
                                         <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                                         </svg>
@@ -106,11 +110,11 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
+                            <div class="block px-4 py-2 text-xs text-black no-underline hover:bg-slate-300">
                                 {{ __('Manage Account') }}
                             </div>
 
-                            <x-dropdown-link href="{{ route('profile.show') }}">
+                            <x-dropdown-link href="{{ route('profile.show') }}" class="text-black no-underline hover:bg-slate-300">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
@@ -126,8 +130,8 @@
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
 
-                                <x-dropdown-link href="{{ route('logout') }}"
-                                         @click.prevent="$root.submit();">
+                                <x-dropdown-link href="{{ route('logout') }}" class="text-black no-underline hover:bg-slate-300"
+                                                 @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
@@ -138,7 +142,7 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-800 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-800 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -154,6 +158,24 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('product.index') }}" :active="request()->routeIs('product.index')">
+                {{ __('Products') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.index')">
+                {{ __('Categories') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('store.index') }}" :active="request()->routeIs('store.index')">
+                {{ __('Stores') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('scraping_product.index') }}" :active="request()->routeIs('scraping_product.index')">
+                {{ __('Scraping Products') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('price.index') }}" :active="request()->routeIs('price.index')">
+                {{ __('Prices') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.index')">
+                {{ __('Contacts') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -166,14 +188,14 @@
                 @endif
 
                 <div>
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-base text-black dark:text-gray-900">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
             </div>
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')" class="text-black">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
@@ -184,11 +206,11 @@
                 @endif
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}" x-data>
+                <form method="POST" action="{{ route('logout') }}"  class="text-black no-underline hover:bg-slate-300" x-data>
                     @csrf
 
-                    <x-responsive-nav-link href="{{ route('logout') }}"
-                                   @click.prevent="$root.submit();">
+                    <x-responsive-nav-link href="{{ route('logout') }}" class="text-black no-underline hover:text-white " 
+                                           @click.prevent="$root.submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

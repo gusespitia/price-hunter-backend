@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // No es necesario agregar manualmente el middleware aquí si ya está en Kernel.php
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

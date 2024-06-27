@@ -1,70 +1,41 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
+            {{ __('Add a New Category') }}
+        </h2>
+    </x-slot>
 
-  <!-- Modal -->
-  <div class="modal fade" id="create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">add new Product</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <x-slot name="title">
+        {{ __('Add a New Category') }}
+    </x-slot>
+
+    <main class="d-flex justify-content-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8 col-sm-10">
+                    <form id="createCategoryForm" method="POST" action="{{ route('category.store') }}" class="text-black bg-white mt-4 p-4 rounded-md" needs-validation autocomplete="off">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Category Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input @error('status') is-invalid @enderror" id="status" name="status" value="1" checked>
+                            <label class="form-check-label" for="status">Status</label>
+                            @error('status')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="gap-3 d-flex justify-content-center">
+                            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <form action="{{route('product.store')}} " method="post" enctype="multipart/form-data">
-          @csrf
-         <div class="modal-body">
-        
-         <div class="mb-3">
-            <label for="" class="form-label">Product Name</label>
-            <input
-                type="text"
-                class="form-control"
-                name="product_name"
-                id=""
-                aria-describedby="helpId"
-                placeholder="Please insert a name"
-            />  
-             </div>
-             <div class="mb-3">
-              <label for="" class="form-label">Product Picture</label>
-              <input
-                  type="text"
-                  class="form-control"
-                  name="product_picture"
-                  id=""
-                  aria-describedby="helpId"
-                  placeholder="Please insert a url of your Picture"
-              />  
-               </div>
-               <div class="mb-3">
-                <label for="" class="form-label">Product Presentation</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    name="product_weight"
-                    id=""
-                    aria-describedby="helpId"
-                    placeholder="Please insert a Presentation"
-                />  
-                 </div>
-                 <div class="mb-3">
-                  <label for="" class="form-label">Product Category</label>
-                  <input
-                      type="number"
-                      class="form-control"
-                      name="id_product_category"
-                      id=""
-                      aria-describedby="helpId"
-                      placeholder="Please insert an ID Category"
-                  />  
-                   </div>
-      
-         
-          </div>
- 
-          <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>       
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+    </main>
+</x-app-layout>

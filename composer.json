@@ -6,11 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "attrixtech/laravel-icons": "^1.2",
+        "blade-ui-kit/blade-icons": "^1.6",
+        "knuckleswtf/scribe": "^4.37",
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.1",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "livewire/livewire": "^3.0"
+        "livewire/livewire": "^3.0",
+        "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
